@@ -1,4 +1,4 @@
-within EV_Ranger;
+within EVRanger;
 
 package Interfaces
 end Interfaces;
