@@ -1,3 +1,6 @@
 Battery
 MotorController
-Vehicle
+DCMotor
+VehicleLongDyn
+Gearbox
+Wheel
