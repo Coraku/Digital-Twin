@@ -21,30 +21,6 @@ model Battery
   output Real Voltage "Battery terminal voltage (Volts)";
   output Real SOC_out "Current State of Charge";
 
-  model Test
-  
-  
-    EVRanger.Components.Battery batt;
-  
-    // Power requested from battery [W]
-    parameter Real P_demand = 10000;
-  
-  equation
-    // Feed requested power into battery
-    batt.P_demand = P_demand;
-  
-    // You do NOT assign batt.I_batt here because battery computes it internally
-  
-    // Terminate when SOC empty
-    when batt.SOC <= 0 then
-      terminate("Battery depleted");
-    end when;
-  
-  
-  
-  
-
-  end Test;
 equation
 
   // Terminal voltage drops with current bc of internal resistance
