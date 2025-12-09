@@ -18,6 +18,10 @@ electricalPortOut.V = electricalPortIn.V; // Voltage is taken from the Battery
 v_diff = der(movementPortTarget.r) - der(movementPortFeedback.r);
 a_diff = der(v_diff);
 electricalPortOut.I = a_diff*K;           // Controller Term
+electricalPortIn.I = 0;
+movementPortTarget.F = 0;
+
+
 
 
 annotation(
