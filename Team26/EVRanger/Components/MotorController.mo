@@ -17,7 +17,7 @@ equation
 electricalPortOut.V = electricalPortIn.V; // Voltage is taken from the Battery
 v_diff = der(movementPortTarget.r) - der(movementPortFeedback.r);
 a_diff = der(v_diff);
-electricalPortOut.I = a_diff*K;           // Controller Term
+electricalPortOut.I = v_diff*K;           // Controller Term
 electricalPortIn.I = 0;                   // Parameters not needed -> =0 so everything is defined
 movementPortTarget.F = 0;
 
