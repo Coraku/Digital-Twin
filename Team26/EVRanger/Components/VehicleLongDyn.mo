@@ -19,7 +19,7 @@ parameter Real G_gr = 11; //11:1
 parameter Real eta_gr = 0.95;
 parameter Real r_tr = 0.30;
 
-input Real phi_slope=0;
+parameter Real phi_slope=0;
 Real v;
 Real a;
 
@@ -34,15 +34,14 @@ equation
 
 
 v = der(vehicle.r);
-//v = motor.omega*r_tr;
-motor.omega = G_gr*(v/r_tr);
 a = der(v);
+der(motor.omega) = G_gr*(a/r_tr);
 
 F_tr = motorTorqueToForce(G_gr=G_gr, r_tr=r_tr, tau_mot=motor.tau);
 
 F_loss = fRollResistance(m=m, g=g, mu_rr=mu_rr) + 
           fAeroDrag(rho_air=rho_air, A_veh=A_veh, C_d=C_d, v_act=v) + 
-          fHillClimbing(m=m, g=g, phi_slope=phi_slope) +
+          fHillClimbing(m=m, g=g, phi_slope=phi_slope);
           fLinearAcceleration(m=m, a=a);
           
 vehicle.F = F_tr - F_loss;
