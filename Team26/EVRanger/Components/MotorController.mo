@@ -9,7 +9,7 @@ model MotorController
     Placement(transformation(origin = {74, -4}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {78, 4}, extent = {{-10, -10}, {10, 10}})));
   Interfaces.MovementPort movementPortFeedback annotation(
     Placement(transformation(origin = {-70, 62}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-30, -54}, extent = {{-10, -10}, {10, 10}})));
-  parameter Real K = 1;// Linear Gain
+  parameter Real K = 100;// Linear Gain
   Real v_diff;         // between Target and backfed velocity
   Real a_diff;
   
