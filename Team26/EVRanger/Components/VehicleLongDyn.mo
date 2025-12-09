@@ -37,11 +37,12 @@ v = der(vehicle.r);
 v = motor.omega*r_tr;
 a = der(v);
 
-F_tr = motorTorqueToForce(G_gr=G_gr, r_tr=r_tr, tau_mot=motor.tau) + fLinearAcceleration(m=m, a=a);
+F_tr = motorTorqueToForce(G_gr=G_gr, r_tr=r_tr, tau_mot=motor.tau);
 
 F_loss = fRollResistance(m=m, g=g, mu_rr=mu_rr) + 
           fAeroDrag(rho_air=rho_air, A_veh=A_veh, C_d=C_d, v_act=v) + 
-          fHillClimbing(m=m, g=g, phi_slope=phi_slope);
+          fHillClimbing(m=m, g=g, phi_slope=phi_slope) +
+          fLinearAcceleration(m=m, a=a);
           
 vehicle.F = F_tr - F_loss;
 
