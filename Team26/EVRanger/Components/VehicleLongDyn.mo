@@ -34,7 +34,8 @@ equation
 
 
 v = der(vehicle.r);
-v = motor.omega*r_tr;
+//v = motor.omega*r_tr;
+motor.omega = G_gr*(v/r_tr);
 a = der(v);
 
 F_tr = motorTorqueToForce(G_gr=G_gr, r_tr=r_tr, tau_mot=motor.tau);
