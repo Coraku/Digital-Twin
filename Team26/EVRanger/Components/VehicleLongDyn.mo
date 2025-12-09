@@ -24,22 +24,26 @@ Real v;
 Real a;
 
 Real F_tr;
-  EVRanger.Interfaces.MovementPort wheel annotation(
-    Placement(visible = true, transformation(origin = {12, 56}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {6, -46}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  EVRanger.Interfaces.MovementPort vehicle annotation(
-    Placement(visible = true, transformation(origin = {18, 52}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {8, -16}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+Real F_loss;
 
+Interfaces.MechanicalPort motor annotation(
+    Placement(visible = true, transformation(origin = {-42, 56}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-42, 56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Interfaces.MovementPort vehicle annotation(
+    Placement(visible = true, transformation(origin = {66, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {66, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
 
-wheel.x = vehicle.x; //wie qcm
-v = der(vehicle.x);
+
+v = der(vehicle.r);
+v = motor.omega*r_tr;
 a = der(v);
-F_tr = fRollResistance(m=m, g=g, mu_rr=mu_rr) + 
+
+F_tr = motorTorqueToForce(G_gr=G_gr, r_tr=r_tr, tau_mot=motor.tau) + fLinearAcceleration(m=m, a=a);
+
+F_loss = fRollResistance(m=m, g=g, mu_rr=mu_rr) + 
           fAeroDrag(rho_air=rho_air, A_veh=A_veh, C_d=C_d, v_act=v) + 
-          fHillClimbing(m=m, g=g, phi_slope=phi_slope) +
-          fLinearAcceleration(m=m, a=a) + 
-          fRotationalAcceleration(I_mt=I_mt, G_gr=G_gr, eta_gr=eta_gr, r_tr=r_tr, a=a);
-vehicle.F = wheel.F-F_tr; //subtract traction Force from input wheel force
+          fHillClimbing(m=m, g=g, phi_slope=phi_slope);
+          
+vehicle.F = F_tr - F_loss;
 
 annotation(
     Icon(graphics = {Polygon(origin = {3, 1}, lineColor = {200, 133, 0}, fillColor = {255, 170, 0}, fillPattern = FillPattern.Solid, lineThickness = 0.5, points = {{-23, -39}, {-81, -39}, {-81, -1}, {-43, -1}, {-23, 39}, {57, 39}, {63, -1}, {81, -1}, {81, -39}, {-23, -39}}), Ellipse(origin = {-41, -41}, fillPattern = FillPattern.Solid, extent = {{-21, 21}, {21, -21}}, endAngle = 360), Ellipse(origin = {49, -43}, fillPattern = FillPattern.Solid, extent = {{-21, 21}, {21, -21}}, endAngle = 360), Ellipse(origin = {-41, -41}, fillColor = {209, 209, 209}, fillPattern = FillPattern.Solid, extent = {{-10, 10}, {10, -10}}, endAngle = 360), Ellipse(origin = {49, -43}, fillColor = {209, 209, 209}, fillPattern = FillPattern.Solid, extent = {{-10, 10}, {10, -10}}, endAngle = 360), Polygon(origin = {-21, 19}, lineColor = {170, 255, 255}, fillColor = {226, 255, 251}, fillPattern = FillPattern.Solid, points = {{-16, -18}, {24, -18}, {24, 18}, {2, 18}, {-16, -18}}), Polygon(origin = {40, 19}, lineColor = {226, 255, 251}, fillColor = {226, 255, 251}, fillPattern = FillPattern.Solid, points = {{-26, 18}, {-26, -18}, {22, -18}, {16, 18}, {-26, 18}})}));

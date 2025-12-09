@@ -2,21 +2,29 @@ within EVRanger.Components;
 
 model DCMotor "Basic Lynch Type DC Motor"
   import Modelica.Constants.pi;
+  
   //typical data sheet information
   parameter Real mot_vel = 70 "Motor speed [rpm/V]";
   parameter Real R_a = 0.016 "Armature resistance [ohm]";
   parameter Real I_lim = 250 "Current limit [A]";
+  
   input Real I;
   input Real V;
+  
   output Real torque_mot;
   output Real omega;
+  
+  EVRanger.Interfaces.ElectricalPort controller annotation(
+    Placement(visible = true, transformation(origin = {-2, 76}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {0, 82}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Interfaces.MechanicalPort motor annotation(
+    Placement(visible = true, transformation(origin = {-2, -76}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-2, -76}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+
 protected
   Real torque_mot_raw;
   Real KmPhi; // K_m*Phi -> motor const*total flux passing through coil
   Real torque_mot_max;
 equation
-  omega = V / KmPhi;
-//[rad/s]
+  omega = controller.V / KmPhi; //[rad/s]
   KmPhi = 60 / (mot_vel * 2 * pi);
   torque_mot_max = KmPhi * I;
   torque_mot_raw = KmPhi * V / R_a - KmPhi ^ 2 / R_a * omega;
