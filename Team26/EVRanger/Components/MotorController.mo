@@ -3,7 +3,7 @@ within EVRanger.Components;
 model MotorController
   parameter Real K = 100;
   Real v_diff;
-  Real a_diff;
+  //Real a_diff;
   Interfaces.MechanicalPort mechanicalPortOut annotation(
     Placement(transformation(origin = {0, -58}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {78, 4}, extent = {{-10, -10}, {10, 10}})));
   Interfaces.MovementPort movementPortIn annotation(
@@ -13,9 +13,9 @@ model MotorController
 equation
   
   v_diff = der(DriverInput.r) - der(movementPortIn.r);
-  a_diff = 1;
+  //a_diff = 1;
 //der(v_diff);
-  mechanicalPortOut.tau = a_diff*K;
+  mechanicalPortOut.tau = v_diff*K;
   mechanicalPortOut.omega = der(movementPortIn.r);
   DriverInput.F = 0;
   

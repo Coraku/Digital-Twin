@@ -1,7 +1,7 @@
 within EVRanger.Components;
 
 model MinimalDriver
-  parameter Real velocity = 20;
+  parameter Real velocity = 200;
   Interfaces.MovementPort outputMovement annotation(
     Placement(transformation(origin = {-2, -48}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {2, -58}, extent = {{-10, -10}, {10, 10}})));
 equation
