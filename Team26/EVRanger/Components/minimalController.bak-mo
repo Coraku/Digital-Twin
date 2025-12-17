@@ -1,0 +1,28 @@
+within EVRanger.Components;
+
+model minimalController
+
+
+parameter Real v_des = 5;
+parameter Real K = 100;
+
+Real v_diff;
+Real a_diff;
+
+
+  Interfaces.MechanicalPort mechanicalPortOut annotation(
+    Placement(visible = true, transformation(origin = {0, -58}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {0, -58}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Interfaces.MovementPort movementPortIn annotation(
+    Placement(visible = true, transformation(origin = {-70, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-70, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+equation
+
+
+v_diff = v_des - der(movementPortIn.r);
+a_diff = 1; //der(v_diff);
+
+mechanicalPortOut.tau = a_diff * K;
+mechanicalPortOut.omega = der(movementPortIn.r);
+
+  annotation(
+    Icon(graphics = {Rectangle(origin = {-0.454384, -3.98496}, extent = {{-98.4544, 82.015}, {98.4544, -82.015}})}));
+end minimalController;

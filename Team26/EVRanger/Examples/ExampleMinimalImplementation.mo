@@ -2,26 +2,32 @@ within EVRanger.Examples;
 
 model ExampleMinimalImplementation
   Components.Battery battery annotation(
-    Placement(transformation(origin = {-55, 21}, extent = {{-29, -29}, {29, 29}})));
-  Components.MotorController motorController annotation(
-    Placement(transformation(origin = {54, 18}, extent = {{-30, -30}, {30, 30}})));
+    Placement(transformation(origin = {-85, 9}, extent = {{-29, -29}, {29, 29}})));
   Components.DCMotor dCMotor annotation(
-    Placement(transformation(origin = {-64, -38}, extent = {{-28, -28}, {28, 28}})));
+    Placement(transformation(origin = {66, -30}, extent = {{-28, -28}, {28, 28}})));
   Components.VehicleLongDyn vehicleLongDyn annotation(
-    Placement(transformation(origin = {33, -47}, extent = {{-31, -31}, {31, 31}})));
+    Placement(transformation(origin = {-5, -59}, extent = {{-31, -31}, {31, 31}})));
   Components.MinimalDriver minimalDriver annotation(
-    Placement(transformation(origin = {7, 77}, extent = {{-25, -25}, {25, 25}})));
+    Placement(transformation(origin = {-51, 45}, extent = {{-25, -25}, {25, 25}})));
+  Components.MotorController motorController annotation(
+    Placement(transformation(origin = {17, 25}, extent = {{-27, -27}, {27, 27}})));
 equation
-  connect(vehicleLongDyn.motor, dCMotor.motor) annotation(
-    Line(points = {{20, -30}, {-16, -30}, {-16, -72}, {-30, -72}, {-30, -60}, {-65, -60}, {-65, -59}}));
-  connect(vehicleLongDyn.vehicle, motorController.movementPortFeedback) annotation(
-    Line(points = {{54, -28}, {45, -28}, {45, 2}}));
-  connect(motorController.electricalPortOut, dCMotor.controller) annotation(
+  connect(vehicleLongDyn.vehicleMechanicalPortIn, dCMotor.mechanicalPortOut) annotation(
+    Line(points = {{32, -42}, {32, -72}, {-30, -72}, {-30, -60}, {-65, -60}, {-65, -59}}));
+  connect(vehicleLongDyn.vehicleMovementPortOut, motorController.movementPortIn) annotation(
+    Line(points = {{65, -40}, {65, 2}, {45, 2}}));
+  connect(motorController.mechanicalPortOut, dCMotor.mechanicalPortIn) annotation(
     Line(points = {{77, 19}, {7, 19}, {7, -14}, {-34, -14}, {-34, -3}, {-64, -3}, {-64, -16}}));
-  connect(minimalDriver.outputMovement, motorController.movementPortTarget) annotation(
-    Line(points = {{8, 62}, {32, 62}, {32, 25}}));
-  connect(motorController.electricalPortOut, battery.electricalPortIn) annotation(
-    Line(points = {{78, 20}, {-80, 20}, {-80, 22}}));
-  connect(battery.electricalPortOut, motorController.electricalPortIn) annotation(
-    Line(points = {{-30, 22}, {32, 22}, {32, 12}}));
+  connect(motorController.mechanicalPortOut, battery.electricalPortIn) annotation(
+    Line(points = {{78, 20}, {78, 63}, {29, 63}}));
+  connect(battery.electricalPortOut, dCMotor.electricalPortIn) annotation(
+    Line(points = {{-60, 10}, {-54, 10}, {-54, -10}, {76, -10}}));
+  connect(minimalDriver.outputMovement, motorController.DriverInput) annotation(
+    Line(points = {{-50, 30}, {-2, 30}, {-2, 26}}));
+  connect(motorController.mechanicalPortOut, dCMotor.mechanicalPortIn) annotation(
+    Line(points = {{38, 26}, {56, 26}, {56, -13}}));
+  connect(dCMotor.mechanicalPortOut, vehicleLongDyn.vehicleMechanicalPortIn) annotation(
+    Line(points = {{66, -52}, {16, -52}, {16, -64}}));
+  connect(vehicleLongDyn.vehicleMovementPortOut, motorController.movementPortIn) annotation(
+    Line(points = {{-24, -64}, {8, -64}, {8, 10}}));
 end ExampleMinimalImplementation;

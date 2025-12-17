@@ -1,5 +1,5 @@
 Battery
-MotorController
 DCMotor
 VehicleLongDyn
 MinimalDriver
+MotorController
