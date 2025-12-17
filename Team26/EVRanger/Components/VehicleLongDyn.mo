@@ -19,10 +19,10 @@ parameter Real G_gr = 11; //11:1
 parameter Real eta_gr = 0.95;
 parameter Real r_tr = 0.30;
 
-parameter Real v = 5; 
+//parameter Real v = 5; 
 
 parameter Real phi_slope=0;
-//Real v;
+Real v;
 Real a;
 
 Real F_tr;
@@ -34,7 +34,7 @@ EVRanger.Interfaces.MechanicalPort vehicleMechanicalPortIn annotation(
     Placement(visible = true, transformation(origin = {58, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-64, -14}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
 
-
+vehicleMovementPortOut.F = m*a;
 v = der(vehicleMovementPortOut.r);
 a = der(v);
 
