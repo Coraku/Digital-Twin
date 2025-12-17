@@ -19,11 +19,22 @@ equation
   I_batt = electricalPortOut.I;
   
   // Terminal Voltage calculation
-  V_t = E_m - I_batt * R_int;
-  electricalPortOut.V = V_t;
+  //V_t = E_m - I_batt * R_int;
 
-  // SOC logic: must be negative for discharge
-  der(SOC) = - I_batt / Q_nom;
+  
+  if SOC > 0 then
+    // Normal operation
+    V_t = E_m - I_batt * R_int;
+    der(SOC) = - I_batt / Q_nom;
+  else
+    // Battery is dead
+    V_t = 0;
+    der(SOC) = 0;
+  end if;
+
+  electricalPortOut.V = V_t;
+  //electricalPortOut.V = V_t;
+
   SOC_out = SOC;
   
 annotation(
