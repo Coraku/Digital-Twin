@@ -16,7 +16,7 @@ parameter Real E_m = 360 "Nominal Voltage";
  Interfaces.ElectricalPort electricalPortOut annotation(
     Placement(transformation(origin = {68, 26}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {86, 4}, extent = {{-10, -10}, {10, 10}})));
 equation
-  I_batt = electricalPortOut.I;
+  
   
   // Terminal Voltage calculation
   //V_t = E_m - I_batt * R_int;
@@ -29,8 +29,11 @@ equation
   else
     // Battery is dead
     V_t = 0;
-    der(SOC) = 0;
+    //der(SOC) = 0;
+    I_batt = 0;
   end if;
+  
+  electricalPortOut.I = I_batt;
 
   electricalPortOut.V = V_t;
   //electricalPortOut.V = V_t;

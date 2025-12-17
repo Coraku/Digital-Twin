@@ -1,7 +1,7 @@
 within EVRanger.Components;
 
 model MotorController
-  parameter Real K = 100;
+  parameter Real K = 5;
   Real v_diff;
   //Real a_diff;
   Interfaces.MechanicalPort mechanicalPortOut annotation(
