@@ -18,10 +18,8 @@ equation
     Line(points = {{54, -28}, {45, -28}, {45, 2}}));
   connect(motorController.electricalPortOut, dCMotor.controller) annotation(
     Line(points = {{77, 19}, {7, 19}, {7, -14}, {-34, -14}, {-34, -3}, {-64, -3}, {-64, -16}}));
-  connect(minimalDriver.outputMovement, motorController.movementPortTarget) annotation(
-    Line(points = {{8, 62}, {32, 62}, {32, 25}}));
-  connect(motorController.electricalPortOut, battery.electricalPortIn) annotation(
-    Line(points = {{78, 20}, {-80, 20}, {-80, 22}}));
   connect(battery.electricalPortOut, motorController.electricalPortIn) annotation(
     Line(points = {{-30, 22}, {32, 22}, {32, 12}}));
+  connect(minimalDriver.outputMovement, motorController.movementPortTarget) annotation(
+    Line(points = {{8, 62}, {32, 62}, {32, 26}}));
 end ExampleMinimalImplementation;

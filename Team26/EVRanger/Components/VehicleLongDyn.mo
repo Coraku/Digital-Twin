@@ -20,7 +20,7 @@ parameter Real eta_gr = 0.95;
 parameter Real r_tr = 0.30;
 
 parameter Real phi_slope=0;
-Real v;
+Real v(start=0, fixed=false) "Vehicle velocity";
 Real a;
 
 Real F_tr;
