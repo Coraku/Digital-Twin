@@ -2,11 +2,12 @@ within EVRanger.Components;
 
 model MinimalDriver
   parameter Real velocity = 200;
-  Interfaces.MovementPort outputMovement annotation(
-    Placement(transformation(origin = {-2, -48}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {2, -58}, extent = {{-10, -10}, {10, 10}})));
+ 
+  output Interfaces.VelocitySignal velocitySignal annotation(
+    Placement(visible = true, transformation(origin = {0, -56}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {0, -56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-der(outputMovement.r) = velocity;
+velocitySignal.vel = velocity;
 
 annotation(
-    Icon(graphics = {Ellipse(origin = {1, 4}, extent = {{-55, 56}, {55, -56}})}));
+    Icon(graphics = {Ellipse(origin = {1, 4}, extent = {{-55, 56}, {55, -56}}, endAngle = 360)}));
 end MinimalDriver;

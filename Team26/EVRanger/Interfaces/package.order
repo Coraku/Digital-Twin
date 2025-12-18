@@ -1,3 +1,7 @@
+TorqueSignal
 MovementPort
-ElectricalPort
 MechanicalPort
+ElectricalPort
+DistanceSignal
+AccelerationSignal
+VelocitySignal

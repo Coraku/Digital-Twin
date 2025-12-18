@@ -4,3 +4,4 @@ fHillClimbing
 fRotationalAcceleration
 fLinearAcceleration
 motorTorqueToForce
+minCurrValue

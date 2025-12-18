@@ -1,0 +1,7 @@
+within EVRanger.Interfaces;
+
+connector VelocitySignal
+  Real vel;
+  annotation(
+    Icon(graphics = {Ellipse(origin = {-1, -3}, fillColor = {170, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-95, 91}, {95, -91}}, endAngle = 360)}));
+end VelocitySignal;
