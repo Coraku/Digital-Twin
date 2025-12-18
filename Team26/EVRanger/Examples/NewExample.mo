@@ -20,7 +20,7 @@ equation
   connect(minimalDriver.velocitySignal, motorController.velocitySignalDriver) annotation(
     Line(points = {{-79, 52}, {-79, 24}, {-28, 24}, {-28, 14}}));
   connect(vehicleLongDyn.velocitySignal, motorController.velocitySignalVehicle) annotation(
-    Line(points = {{-40, -78}, {-16, -78}, {-16, -2}}));
+    Line(points = {{-40, -78}, {-54, -78}, {-54, -2}, {-16, -2}}));
   connect(dCMotor.mechanicalPortOut, vehicleLongDyn.vehicleMechanicalPortIn) annotation(
     Line(points = {{60, -52}, {20, -52}, {20, -80}}));
   annotation(
