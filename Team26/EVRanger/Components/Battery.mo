@@ -21,6 +21,10 @@ equation
   // Terminal Voltage calculation
   V_t = E_m - I_batt * R_int;
   electricalPortOut.V = V_t;
+<<<<<<< Updated upstream
+=======
+ 
+>>>>>>> Stashed changes
 
   // SOC logic: must be negative for discharge
   der(SOC) = - I_batt / Q_nom;
