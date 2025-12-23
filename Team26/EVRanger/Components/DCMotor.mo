@@ -9,6 +9,7 @@ model DCMotor "Basic Lynch Type DC Motor"
   parameter Real R_a = 0.016 "Armature resistance [ohm]";
   parameter Real I_lim = 250 "Current limit [A]";
   
+  parameter Real tau_max = -34 "[Nm]";
 
   EVRanger.Interfaces.ElectricalPort electricalPortIn annotation(
     Placement(visible = true, transformation(origin = {-2, 76}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {36, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -24,12 +25,14 @@ protected
   Real I_amature;
   Real I_demand;
   Real I_actual;
+  Real tau_des;
 equation
 
   KmPhi = 60 / (mot_vel * 2 * pi); //motor constant
   
+  tau_des = max(tau_max, torqueSignal.tau); 
   // Current required to meet controller torque demand
-  I_demand = torqueSignal.tau / KmPhi; 
+  I_demand = tau_des / KmPhi; 
   
   //amature current for the voltage from the battery
   I_amature = (electricalPortIn.V - V_b)/R_a;
@@ -40,7 +43,7 @@ equation
   // Limit current to battery capability
  I_actual = minCurrValue(I_demand, I_amature, I_lim);
  
- mechanicalPortOut.tau = KmPhi * I_actual;
+ mechanicalPortOut.tau = KmPhi * (I_actual);
   electricalPortIn.I   = I_actual;
  
 

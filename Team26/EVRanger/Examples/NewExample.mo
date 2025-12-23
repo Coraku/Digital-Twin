@@ -13,7 +13,7 @@ model NewExample
     Placement(visible = true, transformation(origin = {-10, -72}, extent = {{-44, -44}, {44, 44}}, rotation = 0)));
 equation
 
-  connect(battery.electricalPortOut, dCMotor.electricalPortIn) annotation(
+  connect(dCMotor.electricalPortIn, battery.electricalPortOut) annotation(
     Line(points = {{50, 60}, {73, 60}, {73, 1}}));
   connect(motorController.torqueSignal, dCMotor.torqueSignal) annotation(
     Line(points = {{14, 13}, {25.5, 13}, {25.5, 3}, {51, 3}}));

@@ -12,8 +12,7 @@ model VehicleLongDyn "Models the total tractive forces of the vehicle"
   parameter Real A_veh = 1.8;
   parameter Real C_d = 0.19;
   parameter Real I_mt = 0.0028;
-  parameter Real G_gr = 11;
-  //11:1
+  parameter Real G_gr = 11;//11:1
   parameter Real eta_gr = 0.95;
   parameter Real r_tr = 0.30;
   parameter Real phi_slope = 0;
@@ -28,7 +27,7 @@ model VehicleLongDyn "Models the total tractive forces of the vehicle"
   output EVRanger.Interfaces.VelocitySignal velocitySignal annotation(
     Placement(visible = true, transformation(origin = {-64, -14}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-64, -14}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 
-protected
+
 Real F_tr;
 Real F_loss;
 

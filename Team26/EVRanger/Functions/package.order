@@ -5,3 +5,4 @@ fRotationalAcceleration
 fLinearAcceleration
 motorTorqueToForce
 minCurrValue
+checkSOC

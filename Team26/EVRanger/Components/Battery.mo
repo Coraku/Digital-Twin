@@ -3,6 +3,7 @@ within EVRanger.Components;
 model Battery
 
   import EVRanger.Interfaces.ElectricalPort;
+  import EVRanger.Functions.*;
 
 parameter Real E_m = 360 "Nominal Voltage";
   parameter Real R_int = 0.05 "Internal Resistance";
@@ -10,6 +11,7 @@ parameter Real E_m = 360 "Nominal Voltage";
   
   Real SOC(start=1.0, min=0, max=1);
   Real V_t;
+  Real V_oc;
   Real I_batt;
   output Real SOC_out;
   
@@ -21,22 +23,17 @@ equation
   // Terminal Voltage calculation
   //V_t = E_m - I_batt * R_int;
 
+  I_batt = electricalPortOut.I;
+  V_t = electricalPortOut.V;
   
-  if SOC > 0 then
-    // Normal operation
-    V_t = E_m - I_batt * R_int;
-    der(SOC) = - I_batt / Q_nom;
-  else
-    // Battery is dead
-    V_t = 0;
-    //der(SOC) = 0;
-    I_batt = 0;
-  end if;
-  
-  electricalPortOut.I = I_batt;
+   // SOC-dependent open-circuit voltage
+  V_oc = E_m * SOC;
 
-  electricalPortOut.V = V_t;
-  //electricalPortOut.V = V_t;
+  // Terminal voltage
+  V_t = V_oc - R_int * I_batt; //electricalPortOut.I;
+
+  // SOC dynamics
+  der(SOC) = -I_batt/ Q_nom;
 
   SOC_out = SOC;
   
