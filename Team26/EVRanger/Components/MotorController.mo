@@ -1,7 +1,7 @@
 within EVRanger.Components;
 
 model MotorController
-  parameter Real K = -25; //5
+  parameter Real K = -250; //5
   //parameter Real I = 0.02;
   //Real InputIntegral;
   //Real FeedbackIntegral;
