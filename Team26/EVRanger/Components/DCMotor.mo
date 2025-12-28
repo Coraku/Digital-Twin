@@ -9,41 +9,47 @@ model DCMotor "Basic Lynch Type DC Motor"
   parameter Real R_a = 0.016 "Armature resistance [ohm]";
   parameter Real I_lim = 250 "Current limit [A]";
   
-  parameter Real tau_max = -34 "[Nm]";
-
+  parameter Real tau_max = -34 "[Nm]"; //Vorzeichen gerade etwas spannend das Strom Vorzeichen irgenwie gerade ugedreht
+  
+  //Flow/Potential
   EVRanger.Interfaces.ElectricalPort electricalPortIn annotation(
     Placement(visible = true, transformation(origin = {-2, 76}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {36, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   EVRanger.Interfaces.MechanicalPort mechanicalPortOut annotation(
     Placement(visible = true, transformation(origin = {-2, -76}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-2, -76}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
+  // Signals
   input EVRanger.Interfaces.TorqueSignal torqueSignal annotation(
     Placement(visible = true, transformation(origin = {-24, 74}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-24, 74}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 
-protected
+//protected
 
   Real KmPhi; // K_m*Phi -> motor const*total flux passing through coil
-  Real V_b;
-  Real I_amature;
-  Real I_demand;
-  Real I_actual;
-  Real tau_des;
+  Real V_b "Voltage opposing supply voltage";
+  Real I_amature "Amature current";
+  Real I_demand "Current necessary to meet torque demand from controller";
+  Real I_actual "Possible current, considering I_max, I_demand & I_amature";
+  Real tau_des "Desired torque value, considering the max torque of the motor & controller demand";
 equation
 
   KmPhi = 60 / (mot_vel * 2 * pi); //motor constant
   
+  // tau_des = torqueSignal if torqueSignal>= tau_max
   tau_des = max(tau_max, torqueSignal.tau); 
+  
   // Current required to meet controller torque demand
   I_demand = tau_des / KmPhi; 
   
-  //amature current for the voltage from the battery
+  // Amature current for the voltage from the battery
   I_amature = (electricalPortIn.V - V_b)/R_a;
   
-  // voltage opposing supply voltage
+  // Voltage opposing supply voltage
   V_b = KmPhi * mechanicalPortOut.omega;
 
-  // Limit current to battery capability
- I_actual = minCurrValue(I_demand, I_amature, I_lim);
+  // Limit current to battery capability & motor possibilities
+  I_actual = minCurrValue(I_demand, I_amature, I_lim);
  
- mechanicalPortOut.tau = KmPhi * (I_actual);
+ // Assign signal & flow values
+  mechanicalPortOut.tau = KmPhi * (I_actual);
   electricalPortIn.I   = I_actual;
  
 
