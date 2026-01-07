@@ -62,12 +62,14 @@ equation
  
   /* ========= Electrical port ========= */
   //I_batt = electricalPortOut.I;
-  I_batt = if SOC <= SOC_min then
+  /*I_batt = if SOC <= SOC_min then
              max(electricalPortOut.I, 0) // Allow only charging current if at min SOC
            elseif SOC >= SOC_max then
              min(electricalPortOut.I, 0) // Allow only discharging current if at max SOC
            else
              electricalPortOut.I; //Prevent battery current flow when SOC outside limits
+             */
+             I_batt = check_SOC(SOC, SOC_min, SOC_max, electricalPortOut.I);
 
   electricalPortOut.V = V_t;
 
