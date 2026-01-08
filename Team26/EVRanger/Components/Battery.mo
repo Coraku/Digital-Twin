@@ -9,15 +9,15 @@ model Battery
   import EVRanger.Functions.*;
 
 
-
-  /* ========= Parameters ========= */
   parameter Real R_int = 0.08 "Internal resistance (Ohm)";
   parameter Real Q_nom = 720000 "Nominal capacity (Coulombs)";
   parameter Real T_ref = 25 "Initial temperature (°C)";
-  
+ 
+
 parameter Real beta_degrad = 0.1 "Temperature sensitivity for SOH degradation";
 parameter Real SOC_min = 0.05 "Minimum SOC limit";
 parameter Real SOC_max = 1.0 "Maximum SOC limit";
+//Real soc_block;
 
 
   parameter Real m_batt = 420 "Battery mass (kg)";
@@ -37,14 +37,13 @@ parameter Real degradation_rate = 5e-8 "SOH degradation rate";
   Real I_batt "Battery current (A)";
   Real V_t "Terminal voltage (V)";
   Real V_oc "Open-circuit voltage (V)";
-  Real R_int_T "Temperature-adjusted resistance (Ohm)";
+  Real R_int_T "Temperature-adjusted resistance";
 
 
-  Real Q_gen "Generated heat (W)";
+  Real Q_gen "Generated heat";
   Real Q_loss "Heat loss (W)";
 
-  /* ========= Derived ========= */
-  Real Q_eff "Effective capacity (Coulombs)";
+  Real Q_eff "Effective capacity";
 
  
  Real SOC_out;
@@ -58,10 +57,10 @@ parameter Real degradation_rate = 5e-8 "SOH degradation rate";
     Placement(transformation(origin = {68, 26}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {86, 4}, extent = {{-10, -10}, {10, 10}})));
 equation
 
+//soc_block = if noEvent(SOC <= SOC_min) then 1.0 else 0.0;
 
  
-  /* ========= Electrical port ========= */
-  //I_batt = electricalPortOut.I;
+  I_batt = electricalPortOut.I;
   /*I_batt = if SOC <= SOC_min then
              max(electricalPortOut.I, 0) // Allow only charging current if at min SOC
            elseif SOC >= SOC_max then
@@ -69,22 +68,24 @@ equation
            else
              electricalPortOut.I; //Prevent battery current flow when SOC outside limits
              */
-             I_batt = check_SOC(SOC, SOC_min, SOC_max, electricalPortOut.I);
+            // I_batt = check_SOC(SOC, SOC_min, SOC_max, electricalPortOut.I);
 
   electricalPortOut.V = V_t;
 
-  /* ========= Temperature effects ========= */
   R_int_factor = R_int_temp_factor(T);
-  R_int_T = R_int * R_int_factor;
-  Q_eff = Q_nom_temp(T, Q_nom);
+  //R_int_T = R_int * R_int_factor;
+  R_int_T = R_int * R_int_factor * (if (SOC > SOC_min) and (SOC < SOC_max) then 1 else 1e6);
+  Q_eff = Q_nom_temp(T, Q_nom); 
+  
+/*R_int_T =
+  R_int * R_int_factor *
+  (1 + (1e5 - 1) * smooth(1, soc_block));*/
 
-  /* ========= Voltage model ========= */
-  //V_oc = OCV_from_SOC(SOC);
   
   V_oc = OCV_from_SOC(SOC);
   V_t = V_oc - R_int_T * I_batt;
 
-  /* ========= SOC dynamics ========= */
+
   /*der(SOC) = if SOC > 0 then
                -I_batt / (Q_eff * SOH)
              else
@@ -96,7 +97,6 @@ equation
             
         
 
-  /* ========= SOH dynamics ========= */
   //der(SOH) = -degradation_rate * abs(I_batt);
   //der(SOH) = - degradation_rate * abs(I_batt) * exp(beta_degrad * (T - T_ref));
   der(SOH) = if (SOC > SOC_min) and (SOC < SOC_max) and (abs(I_batt) > 0) then
@@ -105,8 +105,6 @@ equation
              0;
 
 
-
-  /* ========= Thermal dynamics ========= */
   Q_gen  = I_batt^2 * R_int_T;
   Q_loss = h * A * (T - T_amb);
 
@@ -117,7 +115,7 @@ equation
          else
            0; // or der(T) = 0 to keep temp constant
 
-  /* ========= Outputs ========= */
+
   SOC_out = SOC;
   T_out   = T;
   SOH_out = SOH;
