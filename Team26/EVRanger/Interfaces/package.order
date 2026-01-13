@@ -5,3 +5,5 @@ ElectricalPort
 DistanceSignal
 AccelerationSignal
 VelocitySignal
+ForceSignal
+MassSignal

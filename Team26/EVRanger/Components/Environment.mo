@@ -1,6 +1,7 @@
 within EVRanger.Components;
 
 model Environment // Here we will calculate the different Force Vectors and the real Velocity of the Car
+ parameter Real slope = 0; // in Degrees, will be a function later
 equation
 
 annotation(
