@@ -34,7 +34,7 @@ equation
   KmPhi = 60 / (mot_vel * 2 * pi); //motor constant
   
   // tau_des = torqueSignal if torqueSignal>= tau_max
-  tau_des = max(tau_max, torqueSignal.tau); 
+  tau_des = tau_max*torqueSignal.tau; 
   
   // Current required to meet controller torque demand
   I_demand = tau_des / KmPhi; 
