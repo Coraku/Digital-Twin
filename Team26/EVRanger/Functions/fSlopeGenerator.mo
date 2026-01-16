@@ -6,5 +6,6 @@ input Real position;
 output Real Slope;
 algorithm
 Slope := 0*position;
+// TODO: implement real formula
 
 end fSlopeGenerator;
