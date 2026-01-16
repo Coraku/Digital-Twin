@@ -1,8 +1,15 @@
 within EVRanger.Components;
 // The Motor Controller is also the "Driver"
 model MotorController
-  parameter Real K = -250; //5
-  Real last_tau_perc; // percentile tau from the last time step
+import EVRanger.Functions.*;
+
+Real vEnv;
+Real vVeh;
+
+Real tau;
+
+
+  
   
   // controller outputs desired torque signal
   output EVRanger.Interfaces.TorqueSignal torqueSignal annotation(
@@ -14,13 +21,16 @@ model MotorController
   input Interfaces.VelocitySignal velocitySignalVehicle annotation(
     Placement(visible = true, transformation(origin = {-32, -52}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-32, -52}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 
-equation
 
-  torqueSignal.tau = if (velocitySignalEnvironment.vel == 0) then
-    0
-    else
-   (1 - div(velocitySignalVehicle.vel, velocitySignalEnvironment.vel));
-  last_tau_perc = torqueSignal.tau;
+// connections
+equation
+  vEnv = velocitySignalEnvironment.vel;
+  vVeh = velocitySignalVehicle.vel;
+
+  torqueSignal.tau = tau;
+
+  tau = 1-(vVeh/vEnv);
+  
   annotation(
     Icon(graphics = {Rectangle(origin = {0, 5}, lineThickness = 1, extent = {{-36, 17}, {36, -17}}), Text(origin = {0, 6}, extent = {{-26, 8}, {26, -8}}, textString = "Magic"), Text(origin = {-59, 22}, extent = {{-15, 6}, {15, -6}}, textString = "Input"), Text(origin = {54, 13}, extent = {{-14, 6}, {14, -6}}, textString = "Output"), Line(origin = {53, 4}, points = {{-17, 0}, {17, 0}, {17, 0}}), Line(origin = {-30, -29}, points = {{0, -17}, {0, 17}, {0, 17}}), Text(origin = {-7, -32}, extent = {{-19, 8}, {19, -8}}, textString = "Feedback"), Line(origin = {-49, 6}, points = {{13, 0}, {-13, 0}})}),
     Diagram(graphics));

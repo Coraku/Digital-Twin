@@ -1,0 +1,12 @@
+within EVRanger.Functions;
+
+function fControllerTorque
+input Real vEnv;
+input Real vVeh;
+input Real grace;
+output Real tau;
+algorithm
+when (vEnv > 0) and (abs(vVeh/vEnv - 1) < grace) then
+  tau := 1 - vVeh/vEnv;  // your calculation
+end when;
+end fControllerTorque;

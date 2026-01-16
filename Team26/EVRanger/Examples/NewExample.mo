@@ -2,28 +2,28 @@ within EVRanger.Examples;
 
 model NewExample
   Components.Battery battery annotation(
-    Placement(transformation(origin = {34, 74}, extent = {{-34, -34}, {34, 34}})));
+    Placement(transformation(origin = {26, 72}, extent = {{-34, -34}, {34, 34}})));
   EVRanger.Components.DCMotor dCMotor annotation(
-    Placement(visible = true, transformation(origin = {60, -24}, extent = {{-36, -36}, {36, 36}}, rotation = 0)));
+    Placement(transformation(origin = {58, -16}, extent = {{-36, -36}, {36, 36}})));
   EVRanger.Components.VehicleLongDyn vehicleLongDyn annotation(
-    Placement(visible = true, transformation(origin = {-10, -72}, extent = {{-44, -44}, {44, 44}}, rotation = 0)));
+    Placement(transformation(origin = {-12, -70}, extent = {{-44, -44}, {44, 44}})));
   Components.Environment environment annotation(
-    Placement(transformation(origin = {-65, 68.8}, extent = {{-23, -9.2}, {23, 9.2}})));
+    Placement(transformation(origin = {-73, 70.8}, extent = {{-23, -9.2}, {23, 9.2}})));
   Components.MotorController motorController annotation(
-    Placement(transformation(origin = {-19, 7}, extent = {{-35, -35}, {35, 35}})));
+    Placement(transformation(origin = {-19, 9}, extent = {{-35, -35}, {35, 35}})));
 equation
   connect(dCMotor.mechanicalPortOut, vehicleLongDyn.vehicleMechanicalPortIn) annotation(
-    Line(points = {{60, -52}, {20, -52}, {20, -80}}));
+    Line(points = {{57, -43}, {57, -77}, {19, -77}}));
   connect(battery.electricalPortOut, dCMotor.electricalPortIn) annotation(
-    Line(points = {{63, 75}, {72, 75}, {72, 2}}));
+    Line(points = {{55, 73}, {70, 73}, {70, 9}, {71, 9}}));
   connect(environment.velocitySignal, motorController.velocitySignalEnvironment) annotation(
-    Line(points = {{-38, 68}, {-43.5, 68}, {-43.5, 9}}));
+    Line(points = {{-46, 71}, {-46, 11}, {-43.5, 11}}));
   connect(motorController.torqueSignal, dCMotor.torqueSignal) annotation(
-    Line(points = {{8, 8}, {52, 8}, {52, 2}}));
+    Line(points = {{8, 10}, {30, 10}, {30, 11}, {49, 11}}));
   connect(vehicleLongDyn.velocitySignal, motorController.velocitySignalVehicle) annotation(
-    Line(points = {{-38, -78}, {-30, -78}, {-30, -11}}));
+    Line(points = {{-40, -76}, {-40, -41.5}, {-30, -41.5}, {-30, -9}}));
   connect(environment.distanceSignalIn, vehicleLongDyn.distanceSignal) annotation(
-    Line(points = {{-64, 56}, {-64, -26}, {2, -26}, {2, -78}}));
+    Line(points = {{-73, 57}, {-73, -26}, {-1, -26}, {-1, -76}}));
   annotation(
     Diagram);
 end NewExample;
