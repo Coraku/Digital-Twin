@@ -1,0 +1,38 @@
+within EVRanger;
+
+package BatteryTypes
+import EVRanger.Records.BatteryParams;
+
+  constant BatteryParams NMC_60kWh(
+    R_int = 0.08,
+    Q_nom = 720000,
+    beta_degrad = 0.12,
+    degradation_rate = 6e-8,
+    m_batt = 420,
+    c_p = 900,
+    h = 8,
+    A = 3.0
+  );
+
+  constant BatteryParams LFP_60kWh(
+    R_int = 0.12,
+    Q_nom = 740000,
+    beta_degrad = 0.05,
+    degradation_rate = 2e-8,
+    m_batt = 480,
+    c_p = 920,
+    h = 7,
+    A = 3.2
+  );
+
+  constant BatteryParams SolidState_60kWh(
+    R_int = 0.03,
+    Q_nom = 780000,
+    beta_degrad = 0.02,
+    degradation_rate = 5e-9,
+    m_batt = 360,
+    c_p = 850,
+    h = 10,
+    A = 2.5
+  );
+end BatteryTypes;

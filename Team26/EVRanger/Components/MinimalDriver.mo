@@ -1,7 +1,7 @@
 within EVRanger.Components;
 
 model MinimalDriver
-  parameter Real velocity = 55;
+  parameter Real velocity = 60;
  
   output Interfaces.VelocitySignal velocitySignal annotation(
     Placement(visible = true, transformation(origin = {0, -56}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {0, -56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

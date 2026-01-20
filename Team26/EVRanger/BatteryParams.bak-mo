@@ -1,0 +1,12 @@
+within EVRanger;
+
+record BatteryParams
+parameter Modelica.Units.SI.Resistance R_int "Internal resistance";
+    parameter Modelica.Units.SI.ElectricCharge Q_nom "Nominal capacity";
+    parameter Real beta_degrad "Temperature sensitivity of aging (1/K)";
+    parameter Real degradation_rate "SOH degradation rate (1/C)";
+    parameter Modelica.Units.SI.Mass m_batt "Battery mass";
+    parameter Modelica.Units.SI.SpecificHeatCapacity c_p "Specific heat capacity";
+    parameter Modelica.Units.SI.CoefficientOfHeatTransfer h "Heat transfer coefficient";
+    parameter Modelica.Units.SI.Area A "Surface area";
+end BatteryParams;

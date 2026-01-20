@@ -15,6 +15,9 @@ model VehicleLongDyn "Models the total tractive forces of the vehicle"
   parameter Real eta_gr = 0.95 "Gear system efficiency";
   parameter Real r_tr = 0.30 "Tyre radius";
   parameter Real phi_slope = 0 "Slope [deg]"; //sobald wir eine Straße haben, wird das zu einem Signal
+   //input Real SOC "Battery State of Charge";
+  //parameter Real SOC_min = 0.05 "Minimum SOC limit";
+
   
   //Flow/Potential Stuff torque and omega from motor
   EVRanger.Interfaces.MechanicalPort vehicleMechanicalPortIn annotation(
@@ -35,20 +38,36 @@ model VehicleLongDyn "Models the total tractive forces of the vehicle"
 equation
   
   //Signal relations
-  velocitySignal.vel = der(distanceSignal.x);
+ velocitySignal.vel = der(distanceSignal.x);
+
+  
+  //  zero if SOC too low
+  //velocitySignal.vel = if SOC > SOC_min then der(distanceSignal.x) else 0;
   accelerationSignal.acc = der(velocitySignal.vel);
   
   //omega_mot relation with tyre radius and vehicle velocity (not 100% correct) 
   vehicleMechanicalPortIn.omega = velocitySignal.vel / r_tr;
   
   //conversion of motor torque to a force)
-  F_tr = motorTorqueToForce(G_gr = G_gr, r_tr = r_tr, tau_mot = vehicleMechanicalPortIn.tau);
+ F_tr = motorTorqueToForce(G_gr = G_gr, r_tr = r_tr, tau_mot = vehicleMechanicalPortIn.tau);
+  /*F_tr =
+  if SOC > SOC_min then
+    motorTorqueToForce(
+      G_gr = G_gr,
+      r_tr = r_tr,
+      tau_mot = vehicleMechanicalPortIn.tau
+    )
+  else
+    0;*/
+
   
   // forces opposing the tractive force
   F_loss = fRollResistance(m = m, g = g, mu_rr = mu_rr) + fAeroDrag(rho_air = rho_air, A_veh = A_veh, C_d = C_d, v_act = velocitySignal.vel) + fHillClimbing(m = m, g = g, phi_slope = phi_slope);
   
   // Force balance (0 = F_tr - F_los - m*a)
   m * accelerationSignal.acc = F_tr - F_loss;
+  
+
   
   
 annotation(
