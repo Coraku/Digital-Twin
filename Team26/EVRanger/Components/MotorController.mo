@@ -6,6 +6,7 @@ model MotorController
   Real vEnv;
   Real vVeh;
   Real tau;
+  parameter Real Kp = 100;
   // controller outputs desired torque signal
   output EVRanger.Interfaces.TorqueSignal torqueSignal annotation(
     Placement(visible = true, transformation(origin = {40, 6}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {78, 4}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -23,7 +24,7 @@ equation
   vVeh = velocitySignalVehicle.vel;
   torqueSignal.tau = tau;
   if batteryAvailable.battAvailable then
-  tau = 1 - (vVeh/vEnv);
+  tau = min(Kp*(1 - (vVeh/vEnv)), 1);
   else
   tau = 0;
   end if;
