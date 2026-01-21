@@ -34,6 +34,9 @@ model VehicleLongDyn "Models the total tractive forces of the vehicle"
   // Forces
   Real F_tr "Tractive force";
   Real F_loss "Sum off all forces opposing F_tr";
+  Real F_roll;
+  Real F_aero;
+  Real F_hill;
 
 equation
   
@@ -62,7 +65,10 @@ equation
 
   
   // forces opposing the tractive force
-  F_loss = fRollResistance(m = m, g = g, mu_rr = mu_rr) + fAeroDrag(rho_air = rho_air, A_veh = A_veh, C_d = C_d, v_act = velocitySignal.vel) + fHillClimbing(m = m, g = g, phi_slope = phi_slope);
+  F_roll = fRollResistance(m = m, g = g, mu_rr = mu_rr, vel=velocitySignal.vel);
+  F_aero = fAeroDrag(rho_air = rho_air, A_veh = A_veh, C_d = C_d, v_act = velocitySignal.vel);
+  F_hill = fHillClimbing(m = m, g = g, phi_slope = phi_slope);
+  F_loss =  F_roll+F_aero  +F_hill; 
   
   // Force balance (0 = F_tr - F_los - m*a)
   m * accelerationSignal.acc = F_tr - F_loss;
