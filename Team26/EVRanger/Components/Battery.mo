@@ -188,6 +188,8 @@ equation
       A = 2.5
     );
   end BatteryTypes;
+output Interfaces.BatteryAvailable batteryAvailable annotation(
+    Placement(visible = true, transformation(origin = {86, -36}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {86, -36}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
 
   I_batt = electricalPortOut.I;
@@ -226,7 +228,7 @@ equation
 
 
   
-
+batteryAvailable.battAvailable = if SOC <= SOC_min then false else true;
   
 annotation(
     Icon(graphics = {Rectangle(origin = {1, 0}, fillPattern = FillPattern.Solid, lineThickness = 1, extent = {{-53, 32}, {53, -32}}), Rectangle(origin = {1, 38}, lineColor = {255, 255, 255}, fillPattern = FillPattern.Solid, lineThickness = 2, extent = {{-59, 4}, {59, -4}}), Rectangle(origin = {-35, 45}, lineColor = {255, 255, 255}, fillPattern = FillPattern.Solid, lineThickness = 2, extent = {{-7, 3}, {7, -3}}), Rectangle(origin = {-35, 51}, fillPattern = FillPattern.Solid, lineThickness = 2, extent = {{-3, 1}, {3, -1}}), Rectangle(origin = {35, 45}, lineColor = {255, 255, 255}, fillPattern = FillPattern.Solid, lineThickness = 2, extent = {{-7, 3}, {7, -3}}), Rectangle(origin = {35, 51}, fillPattern = FillPattern.Solid, lineThickness = 2, extent = {{-3, 1}, {3, -1}}), Rectangle( fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-40, 22}, {40, -22}}), Ellipse(origin = {21, 1}, fillPattern = FillPattern.Solid, extent = {{-9, 9}, {9, -9}}), Ellipse(origin = {-23, 1}, fillPattern = FillPattern.Solid, extent = {{-9, 9}, {9, -9}}), Text(origin = {-22, 2}, textColor = {255, 255, 255}, extent = {{-16, 10}, {16, -10}}, textString = "+", textStyle = {TextStyle.Bold}), Text(origin = {22, 3}, textColor = {255, 255, 255}, extent = {{-34, 13}, {34, -13}}, textString = "-", textStyle = {TextStyle.Bold}), Rectangle(origin = {1, -39}, lineColor = {255, 255, 255}, fillPattern = FillPattern.Solid, lineThickness = 2, extent = {{-59, 5}, {59, -5}}), Line(origin = {65, 2}, points = {{-11, 0}, {11, 0}}), Text(origin = {84, -15}, extent = {{-10, 5}, {10, -5}}, textString = "output")}),
