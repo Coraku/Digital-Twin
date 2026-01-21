@@ -10,7 +10,7 @@ speed_limit := if position < 5000 then
 else if position < 25000 then
 100/3.6
 else
-120/3.6;
+3600/3.6;
 // TODO: implement real formula
 
 end fSpeedLimit;

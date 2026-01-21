@@ -5,7 +5,7 @@ within EVRanger.Components;
 
 model Battery
 
- //WORKING: 
+ /*WORKING: 
   import EVRanger.Interfaces.ElectricalPort;
   import EVRanger.Functions.*;
 
@@ -102,14 +102,14 @@ equation
   T_out   = T;
   SOH_out = SOH;
   
-  /*
+  */
   import EVRanger.Interfaces.ElectricalPort;
   import EVRanger.Functions.*;
   import EVRanger.Records.BatteryParams;
   import EVRanger.BatteryTypes;
 
 // Select battery type: 1=NMC, 2=LFP, 3=SolidState
-  parameter Integer batteryType = 2 "Select battery type";
+  parameter Integer batteryType = 1 "Select battery type";
 
 // Choose battery parameters based on selection
   parameter BatteryParams batt = if batteryType == 1 then BatteryTypes.NMC_60kWh
@@ -160,7 +160,7 @@ equation
     //350 kg pack weight × 177 Wh/kg = ~62 250; Q=62250/3.6(nominal voltage)=17291Ah = 62,247,600 C 
     constant BatteryParams NMC_60kWh(
       R_int = 0.08,
-      Q_nom = 62247600,
+      Q_nom = 560250,
       beta_degrad = 0.12,
       degradation_rate = 6e-8,
       m_batt = 350 "kg",
@@ -230,7 +230,7 @@ equation
   SOH_out = SOH;
 
 
-*/
+
   
 batteryAvailable.battAvailable = if SOC <= SOC_min then false else true;
   
