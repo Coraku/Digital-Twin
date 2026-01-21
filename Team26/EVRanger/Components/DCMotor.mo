@@ -29,6 +29,8 @@ model DCMotor "Basic Lynch Type DC Motor"
   Real I_demand "Current necessary to meet torque demand from controller";
   Real I_actual "Possible current, considering I_max, I_demand & I_amature";
   Real tau_des "Desired torque value, considering the max torque of the motor & controller demand";
+input Interfaces.BatteryAvailable batteryAvailable annotation(
+    Placement(visible = true, transformation(origin = {26, 76}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {26, 76}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
 
   KmPhi = 60 / (mot_vel * 2 * pi); //motor constant
@@ -39,14 +41,18 @@ equation
   // Current required to meet controller torque demand
   I_demand = tau_des / KmPhi; 
   
-  // Amature current for the voltage from the battery
-  I_amature = (electricalPortIn.V - V_b)/R_a;
-  
   // Voltage opposing supply voltage
   V_b = KmPhi * mechanicalPortOut.omega;
 
-  // Limit current to battery capability & motor possibilities
+  if batteryAvailable.battAvailable then
+  // Amature current for the voltage from the battery
+  I_amature = (electricalPortIn.V - V_b) / R_a;  
   I_actual = minCurrValue(I_demand, I_amature, I_lim);
+  else
+  I_amature = 0;
+  I_actual = 0;
+  end if;
+  // Limit current to battery capability & motor possibilities
  
  // Assign signal & flow values
   mechanicalPortOut.tau = KmPhi * (I_actual);
