@@ -12,6 +12,6 @@ output Real F_ad;
 
 algorithm
 
-F_ad := 0.5*rho_air*A_veh*C_d*v_act^2;
+F_ad := 0.5*rho_air*A_veh*C_d*(v_act*abs(v_act));
 
 end fAeroDrag;
