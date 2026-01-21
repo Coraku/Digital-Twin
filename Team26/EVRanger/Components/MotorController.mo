@@ -1,16 +1,11 @@
 within EVRanger.Components;
-// The Motor Controller is also the "Driver"
+
 model MotorController
-import EVRanger.Functions.*;
-
-Real vEnv;
-Real vVeh;
-
-Real tau;
-
-
-  
-  
+  // The Motor Controller is also the "Driver"
+  import EVRanger.Functions.*;
+  Real vEnv;
+  Real vVeh;
+  Real tau;
   // controller outputs desired torque signal
   output EVRanger.Interfaces.TorqueSignal torqueSignal annotation(
     Placement(visible = true, transformation(origin = {40, 6}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {78, 4}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -20,18 +15,19 @@ Real tau;
   // acutal velocity from the vehicle
   input Interfaces.VelocitySignal velocitySignalVehicle annotation(
     Placement(visible = true, transformation(origin = {-32, -52}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-32, -52}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-
-
-// connections
+  // connections
+  input Interfaces.BatteryAvailable batteryAvailable annotation(
+    Placement(transformation(origin = {-12, 78}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-12, 78}, extent = {{-10, -10}, {10, 10}})));
 equation
   vEnv = velocitySignalEnvironment.vel;
   vVeh = velocitySignalVehicle.vel;
-
   torqueSignal.tau = tau;
-  
-  tau = 1 - 0.1*(vVeh/vEnv);
-  
+  if batteryAvailable.battAvailable then
+  tau = 1 - (vVeh/vEnv);
+  else
+  tau = 0;
+  end if;
   annotation(
-    Icon(graphics = {Rectangle(origin = {0, 5}, lineThickness = 1, extent = {{-36, 17}, {36, -17}}), Text(origin = {0, 6}, extent = {{-26, 8}, {26, -8}}, textString = "Magic"), Text(origin = {-59, 22}, extent = {{-15, 6}, {15, -6}}, textString = "Input"), Text(origin = {54, 13}, extent = {{-14, 6}, {14, -6}}, textString = "Output"), Line(origin = {53, 4}, points = {{-17, 0}, {17, 0}, {17, 0}}), Line(origin = {-30, -29}, points = {{0, -17}, {0, 17}, {0, 17}}), Text(origin = {-7, -32}, extent = {{-19, 8}, {19, -8}}, textString = "Feedback"), Line(origin = {-49, 6}, points = {{13, 0}, {-13, 0}})}),
+    Icon(graphics = {Rectangle(origin = {0, 5}, lineThickness = 1, extent = {{-36, 17}, {36, -17}}), Text(origin = {0, 6}, extent = {{-26, 8}, {26, -8}}, textString = "Magic"), Text(origin = {-59, 22}, extent = {{-15, 6}, {15, -6}}, textString = "Input"), Text(origin = {54, 13}, extent = {{-14, 6}, {14, -6}}, textString = "Output"), Line(origin = {53, 4}, points = {{-17, 0}, {17, 0}, {17, 0}}), Line(origin = {-30, -29}, points = {{0, -17}, {0, 17}, {0, 17}}), Text(origin = {-7, -32}, extent = {{-19, 8}, {19, -8}}, textString = "Feedback"), Line(origin = {-49, 6}, points = {{13, 0}, {-13, 0}}), Line(origin = {-12, 46}, points = {{0, 24}, {0, -24}, {0, -24}})}),
     Diagram(graphics));
 end MotorController;

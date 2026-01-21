@@ -26,6 +26,8 @@ equation
     Line(points = {{-73, 57}, {-73, -26}, {-1, -26}, {-1, -76}}));
   connect(battery.batteryAvailable, dCMotor.batteryAvailable) annotation(
     Line(points = {{56, 60}, {68, 60}, {68, 12}}));
+  connect(battery.batteryAvailable, motorController.batteryAvailable) annotation(
+    Line(points = {{56, 60}, {-24, 60}, {-24, 36}}));
   annotation(
     Diagram);
 end NewExample;

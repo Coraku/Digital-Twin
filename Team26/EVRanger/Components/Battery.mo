@@ -5,7 +5,8 @@ within EVRanger.Components;
 
 model Battery
 
- /*WORKING: import EVRanger.Interfaces.ElectricalPort;
+ //WORKING: 
+  import EVRanger.Interfaces.ElectricalPort;
   import EVRanger.Functions.*;
 
 
@@ -55,6 +56,8 @@ parameter Real degradation_rate = 5e-8 "SOH degradation rate";
   
  Interfaces.ElectricalPort electricalPortOut annotation(
     Placement(transformation(origin = {68, 26}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {86, 4}, extent = {{-10, -10}, {10, 10}})));
+output Interfaces.BatteryAvailable batteryAvailable annotation(
+    Placement(visible = true, transformation(origin = {86, -36}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {86, -36}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
 
  
@@ -97,8 +100,9 @@ equation
 
   SOC_out = SOC;
   T_out   = T;
-  SOH_out = SOH; */
+  SOH_out = SOH;
   
+  /*
   import EVRanger.Interfaces.ElectricalPort;
   import EVRanger.Functions.*;
   import EVRanger.Records.BatteryParams;
@@ -153,7 +157,7 @@ equation
   package BatteryTypes
   import EVRanger.Records.BatteryParams;
   
-    /* 350 kg pack weight × 177 Wh/kg = ~62 250; Q=62250/3.6(nominal voltage)=17291Ah = 62,247,600 C   */
+    //350 kg pack weight × 177 Wh/kg = ~62 250; Q=62250/3.6(nominal voltage)=17291Ah = 62,247,600 C 
     constant BatteryParams NMC_60kWh(
       R_int = 0.08,
       Q_nom = 62247600,
@@ -165,7 +169,7 @@ equation
       A = 3.0
     );
   
-    /* 415 kg pack weight × 150 Wh/kg = ~62 250; Q=62250/3.2(nominal voltage)=19453Ah = 70,030,800   */
+    //415 kg pack weight × 150 Wh/kg = ~62 250; Q=62250/3.2(nominal voltage)=19453Ah = 70,030,800 
     constant BatteryParams LFP_60kWh(
       R_int = 0.12,
       Q_nom = 70030800,
@@ -226,7 +230,7 @@ equation
   SOH_out = SOH;
 
 
-
+*/
   
 batteryAvailable.battAvailable = if SOC <= SOC_min then false else true;
   
