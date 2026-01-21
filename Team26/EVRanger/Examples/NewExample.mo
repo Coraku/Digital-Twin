@@ -24,6 +24,8 @@ equation
     Line(points = {{-40, -76}, {-40, -41.5}, {-30, -41.5}, {-30, -9}}));
   connect(environment.distanceSignalIn, vehicleLongDyn.distanceSignal) annotation(
     Line(points = {{-73, 57}, {-73, -26}, {-1, -26}, {-1, -76}}));
+  connect(battery.batteryAvailable, dCMotor.batteryAvailable) annotation(
+    Line(points = {{56, 60}, {68, 60}, {68, 12}}));
   annotation(
     Diagram);
 end NewExample;
