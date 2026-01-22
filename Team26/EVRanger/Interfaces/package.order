@@ -6,4 +6,4 @@ DistanceSignal
 AccelerationSignal
 VelocitySignal
 SlopeSignal
-BatteryAvailable
+BatteryAvailableSignal

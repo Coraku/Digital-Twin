@@ -16,19 +16,19 @@ model MotorController
   // acutal velocity from the vehicle
   input Interfaces.VelocitySignal velocitySignalVehicle annotation(
     Placement(visible = true, transformation(origin = {-32, -52}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-32, -52}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  input EVRanger.Interfaces.BatteryAvailableSignal batteryAvailableSignal annotation(
+    Placement(visible = true, transformation(origin = {-10, 76}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-12, 76}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   // connections
-  input Interfaces.BatteryAvailable batteryAvailable annotation(
-    Placement(transformation(origin = {-12, 78}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-12, 78}, extent = {{-10, -10}, {10, 10}})));
 equation
   vEnv = velocitySignalEnvironment.vel;
   vVeh = velocitySignalVehicle.vel;
   torqueSignal.tau = tau;
-  if batteryAvailable.battAvailable then
+  if batteryAvailableSignal.batteryAvailable then
   tau = min(Kp*(1 - (vVeh/vEnv)), 1);
   else
   tau = 0;
   end if;
   annotation(
-    Icon(graphics = {Rectangle(origin = {0, 5}, lineThickness = 1, extent = {{-36, 17}, {36, -17}}), Text(origin = {0, 6}, extent = {{-26, 8}, {26, -8}}, textString = "Magic"), Text(origin = {-59, 22}, extent = {{-15, 6}, {15, -6}}, textString = "Input"), Text(origin = {54, 13}, extent = {{-14, 6}, {14, -6}}, textString = "Output"), Line(origin = {53, 4}, points = {{-17, 0}, {17, 0}, {17, 0}}), Line(origin = {-30, -29}, points = {{0, -17}, {0, 17}, {0, 17}}), Text(origin = {-7, -32}, extent = {{-19, 8}, {19, -8}}, textString = "Feedback"), Line(origin = {-49, 6}, points = {{13, 0}, {-13, 0}}), Line(origin = {-12, 46}, points = {{0, 24}, {0, -24}, {0, -24}})}),
+    Icon(graphics = {Rectangle(origin = {0, 5}, lineThickness = 1, extent = {{-36, 17}, {36, -17}}), Text(origin = {0, 6}, extent = {{-26, 8}, {26, -8}}, textString = "Magic"), Text(origin = {-59, 22}, extent = {{-15, 6}, {15, -6}}, textString = "Input"), Text(origin = {54, 13}, extent = {{-14, 6}, {14, -6}}, textString = "Output"), Line(origin = {53, 4}, points = {{-17, 0}, {17, 0}, {17, 0}}), Line(origin = {-30, -29}, points = {{0, -17}, {0, 17}, {0, 17}}), Text(origin = {-7, -32}, extent = {{-19, 8}, {19, -8}}, textString = "Feedback"), Line(origin = {-49, 6}, points = {{13, 0}, {-13, 0}}), Line(origin = {-12, 46}, points = {{0, 24}, {0, -24}, {0, -24}}), Text(origin = {1, 54}, extent = {{-15, 6}, {15, -6}}, textString = "Input")}),
     Diagram(graphics));
 end MotorController;
