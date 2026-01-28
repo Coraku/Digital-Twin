@@ -7,3 +7,4 @@ AccelerationSignal
 VelocitySignal
 SlopeSignal
 BatteryAvailableSignal
+RollingResistanceSignal
