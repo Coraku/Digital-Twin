@@ -1,0 +1,12 @@
+within EVRanger.Interfaces;
+
+model opsMode
+import EVRanger.Types.BatteryOperationMode;
+
+parameter Real operationMode;
+output Real SOH_init;
+
+equation
+SOH_init = if operationMode == BatteryOperationMode.ReducedSOH then 1.0 else 0.4 "Initial state of health (1 = 100%)";
+
+end opsMode;
