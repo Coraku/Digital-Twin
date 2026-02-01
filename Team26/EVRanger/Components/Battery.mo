@@ -11,7 +11,7 @@ package Battery
     //import EVRanger.Components.Battery.BatteryTypes;
     //import Battery.BatteryOperationModeTypes;
     // Select battery type: 1=NMC, 2=LFP, 3=SolidState
-    parameter Integer batteryType = 3 "Select battery type";
+    parameter Integer batteryType = 2 "Select battery type";
     // Choose battery parameters based on selection
     parameter BatteryParams batt = if batteryType == 1 then BatteryTypes.NMC_60kWh else if batteryType == 2 then BatteryTypes.LFP_60kWh else BatteryTypes.SolidState_60kWh;
     //Battery operation mode
@@ -95,22 +95,46 @@ package Battery
   //within EVRanger.Components.Battery2;
 
   package BatteryTypes
+  
+   
     import EVRanger.Components.Battery.Records.BatteryParams;
-    //~400 V arch
-    constant BatteryParams NMC_60kWh(R_int = 0.03, Q_nom = 540000, beta_degrad = 0.10, degradation_rate = 5e-8, m_batt = 350, c_p = 900, h = 8, A = 3.0);
-    // C: 60kWh / 400V = 150Ah -> 150*3600
-    // kg, 60kWh / 175 Wh/kg (175=pack level energy density)
-    //~320 V arch
-    constant BatteryParams LFP_60kWh(R_int = 0.05, Q_nom = 675000, beta_degrad = 0.05, degradation_rate = 2e-8, m_batt = 415, c_p = 920, h = 7, A = 3.2);
-    // C: 60kWh / 320V = 187.5Ah -> *3600
-    // kg,, 60kWh / 145 Wh/kg
-    // projected, ~400 V
-    constant BatteryParams SolidState_60kWh(R_int = 0.015, Q_nom = 540000, beta_degrad = 0.02, degradation_rate = 5e-9, m_batt = 240, c_p = 850, h = 10, A = 2.5);
-    // projected lower resistance -->solid electrolyte
-    // C: 60kWh / 400V = 150Ah -> *3600
-    // Empirical: slowest degradation (theoretical)
-    // kG, 60kWh / 250 Wh/kg (250=projected pack density)
-    // m2, more compact pack geometry
+  
+    //~400 V arch - NMC
+    constant BatteryParams NMC_60kWh(
+      R_int = 0.03, 
+      Q_nom = (60000 / 400) * 3600,   // 150 Ah * 3600 = 540,000 C
+      beta_degrad = 0.10, 
+      degradation_rate = 5e-8, 
+      m_batt = 343,                   // 60000 Wh / 175 Wh/kg = ~343 kg
+      c_p = 900, 
+      h = 8, 
+      A = 3.0
+    );
+  
+    //~320 V arch - LFP
+    constant BatteryParams LFP_60kWh(
+      R_int = 0.05, 
+      Q_nom = (60000 / 320) * 3600,  // 187.5 Ah * 3600 = 675,000 C
+      beta_degrad = 0.05, 
+      degradation_rate = 2e-8, 
+      m_batt = 414,                   // 60000 Wh / 145 Wh/kg = ~414 kg
+      c_p = 920, 
+      h = 7, 
+      A = 3.2
+    );
+  
+    //~400 V arch - SolidState (projected)
+    constant BatteryParams SolidState_60kWh(
+      R_int = 0.015, 
+      Q_nom = (60000 / 400) * 3600,  // 150 Ah * 3600 = 540,000 C
+      beta_degrad = 0.02, 
+      degradation_rate = 5e-9, 
+      m_batt = 240,                   // 60000 Wh / 250 Wh/kg = 240 kg (projected)
+      c_p = 850, 
+      h = 10, 
+      A = 2.5
+    );
+  
   end BatteryTypes;
 
   package BatteryOperationModeTypes
@@ -120,5 +144,6 @@ package Battery
       ReducedSOH    "Code 01: Reduced initial SOH"
     );
   
-  end BatteryOperationModeTypes;
+  end BatteryOperationModeTypes;annotation(
+    Documentation(info = "<html><head></head><body></body></html>"));
 end Battery;
