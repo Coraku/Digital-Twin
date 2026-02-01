@@ -6,9 +6,10 @@ model VehicleLongDyn "Models the total tractive forces of the vehicle"
   
   // gr->gear, mot->motor, veh->vehicle, tr -> tyre
   // Example parameter of small EV
-  //parameter Real rho_air = Constants.rho_air "";
-  //parameter Real g = Constants.g;
-  parameter Real m = 1540 "Vehicle mass (excluding battery) [kg]"; 
+  
+  parameter Real m_vehicle = 1540 "Vehicle mass excluding battery [kg]";
+  parameter Real m_battery = 0 "Battery mass [kg] (battery.m_batt)";
+  parameter Real m_total = m_vehicle + m_battery "Total vehicle mass [kg]";
   parameter Real A_veh = 1.8 "Frontal area of vehicle [m^2]";
   parameter Real C_d = 0.19 "Drag coefficient";
   parameter Real G_gr = 11 "Gear ratio";
@@ -48,11 +49,11 @@ equation
   F_tr = motorTorqueToForce(G_gr = G_gr, r_tr = r_tr, tau_mot = vehicleMechanicalPortIn.tau);
   
   // Forces opposing the tractive force
-  F_roll = fRollResistance(m = m, g = g, mu_rr = rollingResistanceSignal.mu_rr, vel = velocitySignal.vel);
+  F_roll = fRollResistance(m = m_total, g = g, mu_rr = rollingResistanceSignal.mu_rr, vel = velocitySignal.vel);
   F_aero = fAeroDrag(rho_air = Constants.rho_air, A_veh = A_veh, C_d = C_d, v_act = velocitySignal.vel);
-  F_hill = fHillClimbing(m = m, g = Constants.g, slope = slopeSignal.slope);
+  F_hill = fHillClimbing(m = m_total, g = Constants.g, slope = slopeSignal.slope);
   F_loss =  F_roll+F_aero+F_hill;
-  m * accelerationSignal.acc = F_tr - F_loss; 
+  m_total * accelerationSignal.acc = F_tr - F_loss; 
    
 annotation(
     Icon(graphics = {Polygon(origin = {-1, 9}, lineColor = {200, 133, 0}, fillColor = {255, 170, 0}, fillPattern = FillPattern.Solid, lineThickness = 0.5, points = {{-23, -39}, {-81, -39}, {-81, -1}, {-43, -1}, {-23, 39}, {57, 39}, {63, -1}, {81, -1}, {81, -39}, {-23, -39}}), Ellipse(origin = {-45, -33}, fillPattern = FillPattern.Solid, extent = {{-21, 21}, {21, -21}}, endAngle = 360), Ellipse(origin = {45, -35}, fillPattern = FillPattern.Solid, extent = {{-21, 21}, {21, -21}}, endAngle = 360), Ellipse(origin = {-45, -33}, fillColor = {209, 209, 209}, fillPattern = FillPattern.Solid, extent = {{-10, 10}, {10, -10}}, endAngle = 360), Ellipse(origin = {45, -35}, fillColor = {209, 209, 209}, fillPattern = FillPattern.Solid, extent = {{-10, 10}, {10, -10}}, endAngle = 360), Polygon(origin = {-25, 27}, lineColor = {170, 255, 255}, fillColor = {226, 255, 251}, fillPattern = FillPattern.Solid, points = {{-16, -18}, {24, -18}, {24, 18}, {2, 18}, {-16, -18}}), Polygon(origin = {36, 27}, lineColor = {226, 255, 251}, fillColor = {226, 255, 251}, fillPattern = FillPattern.Solid, points = {{-26, 18}, {-26, -18}, {22, -18}, {16, 18}, {-26, 18}})}),
