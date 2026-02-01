@@ -1,8 +1,6 @@
 within EVRanger.Examples;
 
 model NewExample
-  EVRanger.Components.Battery battery annotation(
-    Placement(visible = true, transformation(origin = {70, 74}, extent = {{-34, -34}, {34, 34}}, rotation = 0)));
   EVRanger.Components.DCMotor dCMotor annotation(
     Placement(visible = true, transformation(origin = {68, -14}, extent = {{-36, -36}, {36, 36}}, rotation = 0)));
   EVRanger.Components.VehicleLongDyn vehicleLongDyn annotation(
@@ -13,11 +11,11 @@ model NewExample
     Placement(visible = true, transformation(origin = {3, 43}, extent = {{-35, -35}, {35, 35}}, rotation = 0)));
   EVRanger.Components.MinimalDriver minimalDriver annotation(
     Placement(visible = true, transformation(origin = {-65, 73}, extent = {{-27, -27}, {27, 27}}, rotation = 0)));
+  EVRanger.Components.Battery.Battery battery(operationMode = EVRanger.Components.Battery.Battery.BatteryOperationModeTypes.BatteryOperationMode.ReducedSOH)  annotation(
+    Placement(visible = true, transformation(origin = {67, 75}, extent = {{-39, -39}, {39, 39}}, rotation = 0)));
 equation
   connect(minimalDriver.velocitySignal, motorController.velocitySignalEnvironment) annotation(
     Line(points = {{-41, 74}, {-21.5, 74}, {-21.5, 45}}));
-  connect(battery.batteryAvailableSignal, motorController.batteryAvailableSignal) annotation(
-    Line(points = {{64, 54}, {42, 54}, {42, 80}, {-1, 80}, {-1, 70}}));
   connect(motorController.torqueSignal, dCMotor.torqueSignal) annotation(
     Line(points = {{30, 44}, {30, -14}, {36, -14}}));
   connect(dCMotor.mechanicalPortOut, vehicleLongDyn.vehicleMechanicalPortIn) annotation(
@@ -32,10 +30,12 @@ equation
     Line(points = {{-33, 39}, {-33, -44}, {-22, -44}}));
   connect(motorController.velocitySignalVehicle, vehicleLongDyn.velocitySignal) annotation(
     Line(points = {{-8, 24}, {-8, -9}, {-6, -9}, {-6, -44}}));
-  connect(battery.electricalPortOut, dCMotor.electricalPortIn) annotation(
-    Line(points = {{76, 54}, {78, 54}, {78, 14}}));
-  connect(battery.batteryAvailableSignal, dCMotor.batteryAvailableSignal) annotation(
-    Line(points = {{64, 54}, {58, 54}, {58, 12}}));
+  connect(motorController.batteryAvailableSignal, battery.batteryAvailableSignal) annotation(
+    Line(points = {{-2, 70}, {38, 70}, {38, 40}, {60, 40}, {60, 54}}));
+  connect(dCMotor.batteryAvailableSignal, battery.batteryAvailableSignal) annotation(
+    Line(points = {{58, 12}, {60, 12}, {60, 54}}));
+  connect(dCMotor.electricalPortIn, battery.electricalPortOut) annotation(
+    Line(points = {{78, 14}, {74, 14}, {74, 54}}));
   annotation(
     Diagram);
 end NewExample;
