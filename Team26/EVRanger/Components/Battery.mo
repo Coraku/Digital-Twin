@@ -1,16 +1,12 @@
 within EVRanger.Components;
 
-package Battery
-  //within EVRanger.Components;
-
-  //within EVRanger.Components.Battery2;
-  
+package Battery  
   model Battery
     
     import EVRanger.Interfaces.ElectricalPort;
     import EVRanger.Functions.*;
     import EVRanger.Components.Battery.Records.BatteryParams;
-    import EVRanger.Components.Battery.BatteryTypes;
+    import EVRanger.Components.Battery.BatteryTypes.*;
     import EVRanger.Components.Battery.BatteryOperationModeTypes;
     //import EVRanger.Components.Battery.BatteryTypes;
     //import Battery.BatteryOperationModeTypes;
@@ -54,44 +50,8 @@ package Battery
     EVRanger.Interfaces.ElectricalPort electricalPortOut annotation(
       Placement(visible = true, transformation(origin = {68, 26}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {18, -56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 
-    package BatteryTypes
-      import EVRanger.Records.BatteryParams;
-      //~400 V arch
-      constant BatteryParams NMC_60kWh(R_int = 0.03, Q_nom = 540000, beta_degrad = 0.10, degradation_rate = 5e-8, m_batt = 350, c_p = 900, h = 8, A = 3.0);
-      // C: 60kWh / 400V = 150Ah -> 150*3600
-      // kg, 60kWh / 175 Wh/kg (175=pack level energy density)
-      //~320 V arch
-      constant BatteryParams LFP_60kWh(R_int = 0.05, Q_nom = 675000, beta_degrad = 0.05, degradation_rate = 2e-8, m_batt = 415, c_p = 920, h = 7, A = 3.2);
-      // C: 60kWh / 320V = 187.5Ah -> *3600
-      // kg,, 60kWh / 145 Wh/kg
-      // projected, ~400 V
-      constant BatteryParams SolidState_60kWh(R_int = 0.015, Q_nom = 540000, beta_degrad = 0.02, degradation_rate = 5e-9, m_batt = 240, c_p = 850, h = 10, A = 2.5);
-      // projected lower resistance -->solid electrolyte
-      // C: 60kWh / 400V = 150Ah -> *3600
-      // Empirical: slowest degradation (theoretical)
-      // kG, 60kWh / 250 Wh/kg (250=projected pack density)
-      // m2, more compact pack geometry
-    end BatteryTypes;
-
     output EVRanger.Interfaces.BatteryAvailableSignal batteryAvailableSignal annotation(
       Placement(visible = true, transformation(origin = {84, 26}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-18, -56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-
-    package BatteryOperationModeTypes
-      type BatteryOperationMode = enumeration(Normal "Code 00: Normal operation", ReducedSOH "Code 01: Reduced initial SOH");
-    end BatteryOperationModeTypes;
-
-    package Records
-      record BatteryParams
-        parameter Modelica.Units.SI.Resistance R_int "Internal resistance";
-        parameter Modelica.Units.SI.ElectricCharge Q_nom "Nominal capacity";
-        parameter Real beta_degrad "Temperature sensitivity of aging (1/K)";
-        parameter Real degradation_rate "SOH degradation rate (1/C)";
-        parameter Modelica.Units.SI.Mass m_batt "Battery mass";
-        parameter Modelica.Units.SI.SpecificHeatCapacity c_p "Specific heat capacity";
-        parameter Modelica.Units.SI.CoefficientOfHeatTransfer h "Heat transfer coefficient";
-        parameter Modelica.Units.SI.Area A "Surface area";
-      end BatteryParams;
-    end Records;
   equation
     I_batt = electricalPortOut.I;
     electricalPortOut.V = V_t;
@@ -131,13 +91,11 @@ package Battery
   end Records;
 
   //within EVRanger.Components.Battery2;
-  
   //within EVRanger.Components.Battery2;
-  
   //within EVRanger.Components.Battery2;
-  
+
   package BatteryTypes
-    import EVRanger.Components.Battery2.Records.BatteryParams;
+    import EVRanger.Components.Battery.Records.BatteryParams;
     //~400 V arch
     constant BatteryParams NMC_60kWh(R_int = 0.03, Q_nom = 540000, beta_degrad = 0.10, degradation_rate = 5e-8, m_batt = 350, c_p = 900, h = 8, A = 3.0);
     // C: 60kWh / 400V = 150Ah -> 150*3600
