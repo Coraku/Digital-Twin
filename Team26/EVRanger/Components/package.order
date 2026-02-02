@@ -2,6 +2,6 @@ Battery
 Consumer
 DCMotor
 Environment
-MinimalDriver
 MotorController
 VehicleLongDyn
+Driver

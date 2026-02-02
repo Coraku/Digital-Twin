@@ -12,3 +12,4 @@ motorTorqueToForce
 OCV_from_SOC
 Q_nom_temp
 R_int_temp_factor
+fFrictionGenerator

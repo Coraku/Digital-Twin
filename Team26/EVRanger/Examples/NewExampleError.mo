@@ -8,26 +8,22 @@ model NewExampleError
   EVRanger.Components.VehicleLongDyn vehicleLongDyn annotation(
     Placement(visible = true, transformation(origin = {-18, -66}, extent = {{-44, -44}, {44, 44}}, rotation = 0)));
   EVRanger.Components.Environment environment annotation(
-    Placement(visible = true, transformation(origin = {-64.5, 11.4}, extent = {{-27.5, 11}, {27.5, 33}}, rotation = 0)));
+    Placement(transformation(origin = {-62.5, -6.6}, extent = {{-27.5, 11}, {27.5, 33}})));
   EVRanger.Components.MotorController motorController annotation(
     Placement(visible = true, transformation(origin = {13, 43}, extent = {{-35, -35}, {35, 35}}, rotation = 0)));
-  EVRanger.Components.MinimalDriver minimalDriver annotation(
-    Placement(visible = true, transformation(origin = {-67, 73}, extent = {{-27, -27}, {27, 27}}, rotation = 0)));
-  EVRanger.Components.Battery.Battery battery(operationMode = EVRanger.Components.Battery.BatteryOperationModeTypes.BatteryOperationMode.ReducedSOH)  annotation(
+  EVRanger.Components.Battery.Battery battery(operationMode = EVRanger.Components.Battery.BatteryOperationModeTypes.BatteryOperationMode.Normal)  annotation(
     Placement(visible = true, transformation(origin = {71, 75}, extent = {{-39, -39}, {39, 39}}, rotation = 0)));
+  Components.Driver.MinimalDriver minimalDriver(operationMode = EVRanger.Components.Driver.DriverOperationModeTypes.DriverOperationMode.Normal)  annotation(
+    Placement(transformation(origin = {-59, 61}, extent = {{-23, -23}, {23, 23}})));
 equation
-  connect(minimalDriver.velocitySignal, motorController.velocitySignalEnvironment) annotation(
-    Line(points = {{-43, 74}, {-11.5, 74}, {-11.5, 45}}));
   connect(battery.batteryAvailableSignal, motorController.batteryAvailableSignal) annotation(
     Line(points = {{64, 54}, {38, 54}, {38, 70}, {9, 70}}));
   connect(motorController.torqueSignal, dCMotor.torqueSignal) annotation(
     Line(points = {{40, 44}, {40, 15}, {36, 15}, {36, -14}}));
   connect(dCMotor.mechanicalPortOut, vehicleLongDyn.vehicleMechanicalPortIn) annotation(
     Line(points = {{68, -46}, {68, -71}, {17, -71}}));
-  connect(vehicleLongDyn.distanceSignal, minimalDriver.distanceSignalIn) annotation(
-    Line(points = {{-54, -71}, {-96, -71}, {-96, 73}, {-91, 73}}));
   connect(vehicleLongDyn.distanceSignal, environment.distanceSignalIn) annotation(
-    Line(points = {{-54, -71}, {-92, -71}, {-92, 25}}));
+    Line(points = {{-54, -71}, {-54, -65}, {-90, -65}, {-90, 15}}));
   connect(motorController.velocitySignalVehicle, vehicleLongDyn.velocitySignal) annotation(
     Line(points = {{2, 25}, {2, -9}, {3, -9}, {3, -44}}));
   connect(battery.electricalPortOut, dCMotor.electricalPortIn) annotation(
@@ -40,10 +36,14 @@ equation
     Line(points = {{78, 54}, {78, 14}}));
   connect(battery.batteryAvailableSignal, motorController.batteryAvailableSignal) annotation(
     Line(points = {{64, 54}, {38, 54}, {38, 70}, {-2, 70}}));
-  connect(environment.rollingResistanceSignal, vehicleLongDyn.rollingResistanceSignal) annotation(
-    Line(points = {{-36, 20}, {-26, 20}, {-26, -44}}));
+  connect(vehicleLongDyn.rollingResistanceSignal, environment.rollingResistanceSignal) annotation(
+    Line(points = {{-26, -44}, {-24, -44}, {-24, 12}, {-34, 12}}));
   connect(environment.slopeSignal, vehicleLongDyn.slopeSignal) annotation(
-    Line(points = {{-36, 30}, {-12, 30}, {-12, -44}}));
+    Line(points = {{-34, 20}, {-12, 20}, {-12, -44}}));
+  connect(minimalDriver.velocitySignal, motorController.velocitySignalEnvironment) annotation(
+    Line(points = {{-38, 62}, {-12, 62}, {-12, 46}}));
+  connect(minimalDriver.distanceSignalIn, vehicleLongDyn.distanceSignal) annotation(
+    Line(points = {{-80, 62}, {-96, 62}, {-96, -72}, {-54, -72}}));
   annotation(
     Diagram);
 end NewExampleError;
