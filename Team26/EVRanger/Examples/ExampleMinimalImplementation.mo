@@ -1,6 +1,7 @@
 within EVRanger.Examples;
 
 model ExampleMinimalImplementation
+extends EVRanger.Icons.ExampleSymb;
   Components.Battery battery annotation(
     Placement(transformation(origin = {-85, 9}, extent = {{-29, -29}, {29, 29}})));
   Components.DCMotor dCMotor annotation(

@@ -1,6 +1,7 @@
 within EVRanger.Examples;
 
 model DebugExample
+extends EVRanger.Icons.ExampleSymb;
   Components.Battery battery annotation(
     Placement(transformation(origin = {-52, 38}, extent = {{-10, -10}, {10, 10}})));
   Components.Consumer consumer annotation(

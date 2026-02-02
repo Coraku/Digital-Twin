@@ -1,6 +1,7 @@
 within EVRanger.Components;
 
-package Battery  
+package Battery 
+extends EVRanger.Icons.BatterySymb; 
   model Battery
     
     import EVRanger.Interfaces.ElectricalPort;

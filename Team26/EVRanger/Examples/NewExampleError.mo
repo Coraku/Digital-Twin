@@ -2,7 +2,7 @@ within EVRanger.Examples;
 
 model NewExampleError
   
-  
+  extends EVRanger.Icons.ExampleSymb;
   EVRanger.Components.DCMotor dCMotor annotation(
     Placement(visible = true, transformation(origin = {68, -14}, extent = {{-36, -36}, {36, 36}}, rotation = 0)));
   EVRanger.Components.VehicleLongDyn vehicleLongDyn annotation(

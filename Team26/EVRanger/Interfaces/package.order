@@ -1,10 +1,10 @@
-TorqueSignal
-MovementPort
-MechanicalPort
-ElectricalPort
-DistanceSignal
 AccelerationSignal
-VelocitySignal
-SlopeSignal
 BatteryAvailableSignal
+DistanceSignal
+ElectricalPort
+MechanicalPort
+MovementPort
 RollingResistanceSignal
+SlopeSignal
+TorqueSignal
+VelocitySignal
