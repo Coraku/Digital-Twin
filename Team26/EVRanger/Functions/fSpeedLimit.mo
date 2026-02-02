@@ -5,9 +5,9 @@ input Real position;
 output Real speed_limit;
 
 algorithm
-speed_limit := if position < 5000 then
+speed_limit := if position < 20000 then
 50/3.6
-else if position < 25000 then
+else if position < 50000 then
 100/3.6
 else
 120/3.6;
