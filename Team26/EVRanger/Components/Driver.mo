@@ -20,5 +20,10 @@ extends EVRanger.Icons.Driver;
   
   package DriverOperationModeTypes
     type DriverOperationMode = enumeration(Normal "Code 00: Normal operation", Speeding "Code 10: Speeding Driver");
-  end DriverOperationModeTypes;
+  end DriverOperationModeTypes;annotation(
+    Documentation(info = "<html><head></head><body><h4 style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"><b>Description</b></h4><div style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"><b><br></b></div><div style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"><!--StartFragment-->The driver represents the link between the speed limit and the actual speed signal provided to the motor controller.<!--EndFragment-->&nbsp;&nbsp;</div><div style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"><br></div><div style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"><b>Subtypes</b></div><div style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"><br></div><div style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\">1. The \"Normal\" subtype represents a lawful driver, who drives only as fast as the speed limit allows.</div><!--StartFragment--><!--EndFragment-->
+
+<div style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"><br></div><div style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\">2. The \"Speeding\" subtype represents a driver who always tries to get from point A to B as quickly as possible, even if it means breaking the law. The \"Speeding\" subtype drives 20% faster than the speed limit.</div><!--StartFragment--><!--EndFragment-->
+
+</body></html>"));
 end Driver;
