@@ -122,7 +122,118 @@ end Battery;
       parameter Modelica.Units.SI.SpecificHeatCapacity c_p "Specific heat capacity";
       parameter Modelica.Units.SI.CoefficientOfHeatTransfer h "Heat transfer coefficient";
       parameter Modelica.Units.SI.Area A "Surface area";
+      
+      
+    
     end BatteryParams;
+    
+    annotation(
+    Documentation(info = "<html>
+  <p>
+  The <b>BatteryParams</b> record defines the physical, electrical, thermal, and aging
+  parameters of a battery chemistry. These parameters are used by the Battery model
+  to compute voltage behavior, state of charge (SOC), state of health (SOH), and
+  thermal dynamics.
+  </p>
+  
+  <table border=\"1\" cellspacing=\"0\" cellpadding=\"2\">
+  <tr>
+    <th>Parameter</th>
+    <th>Description</th>
+    <th>Used in equations</th>
+  </tr>
+  
+  <tr>
+    <td><b>R_int</b></td>
+    <td>
+      Internal electrical resistance of the battery.
+      It causes voltage drop under load and generates heat.
+    </td>
+    <td>
+      V_t = V_oc − R_int,T · I_batt<br/>
+      Q_gen = I_batt² · R_int,T
+    </td>
+  </tr>
+  
+  <tr>
+    <td><b>Q_nom</b></td>
+    <td>
+      Nominal charge capacity of the battery.
+      Defines how much charge the battery can store.
+    </td>
+    <td>
+      Q_eff = Q_nom_temp(T, Q_nom)<br/>
+      dSOC/dt = −I_batt / (Q_eff · SOH)
+    </td>
+  </tr>
+  
+  <tr>
+    <td><b>beta_degrad</b></td>
+    <td>
+      Temperature sensitivity of battery aging.
+      Higher values increase degradation at elevated temperatures.
+    </td>
+    <td>
+      exp(beta_degrad · (T − T_ref)) in dSOH/dt
+    </td>
+  </tr>
+  
+  <tr>
+    <td><b>degradation_rate</b></td>
+    <td>
+      Base rate of state-of-health degradation per unit charge throughput.
+    </td>
+    <td>
+      dSOH/dt = −degradation_rate · |I_batt| · …
+    </td>
+  </tr>
+  
+  <tr>
+    <td><b>m_batt</b></td>
+    <td>
+      Total battery mass.
+      Determines thermal inertia.
+    </td>
+    <td>
+      dT/dt = (Q_gen − Q_loss) / (m_batt · c_p)
+    </td>
+  </tr>
+  
+  <tr>
+    <td><b>c_p</b></td>
+    <td>
+      Specific heat capacity of the battery.
+      Controls how fast temperature changes.
+    </td>
+    <td>
+      dT/dt = (Q_gen − Q_loss) / (m_batt · c_p)
+    </td>
+  </tr>
+  
+  <tr>
+    <td><b>h</b></td>
+    <td>
+      Heat transfer coefficient to the ambient environment.
+    </td>
+    <td>
+      Q_loss = h · A · (T − T_amb)
+    </td>
+  </tr>
+  
+  <tr>
+    <td><b>A</b></td>
+    <td>
+      Effective surface area of the battery for heat exchange.
+    </td>
+    <td>
+      Q_loss = h · A · (T − T_amb)
+    </td>
+  </tr>
+  
+  </table>
+  
+  </html>")
+  );
   end Records;
 
   //within EVRanger.Components.Battery2;
@@ -147,10 +258,68 @@ end Battery;
     beta_degrad = 0.02, degradation_rate = 5e-9, m_batt = 240,  // 60000 Wh / 250 Wh/kg = 240 kg (projected)
     c_p = 850, h = 10, A = 2.5);
     
+    annotation(
+    Documentation(info = "<html><head></head><body>
+    <h4><b>Battery Types</b></h4>
+    <p>This package defines pre-configured battery parameter sets representing different battery chemistries commonly used in electric vehicles. Each battery type includes electrical, thermal, and aging characteristics encapsulated in the <code>BatteryParams</code> record.</p>
+    
+    <h5>NMC 60 kWh</h5>
+    <ul>
+      <li>Nickel Manganese Cobalt (NMC) chemistry with ~400 V nominal voltage.</li>
+      <li>Internal resistance: 0.03 Ω</li>
+      <li>Nominal capacity: 150 Ah (540,000 Coulombs)</li>
+      <li>Temperature sensitivity of aging: 0.10 1/K</li>
+      <li>Degradation rate: 5×10⁻⁸ per Coulomb throughput</li>
+      <li>Battery mass: ~343 kg (energy density ~175 Wh/kg)</li>
+      <li>Specific heat capacity: 900 J/(kg·K)</li>
+      <li>Heat transfer coefficient: 8 W/(m²·K)</li>
+      <li>Surface area: 3.0 m²</li>
+    </ul>
+    
+    <h5>LFP 60 kWh</h5>
+    <ul>
+      <li>Lithium Iron Phosphate (LFP) chemistry with ~320 V nominal voltage.</li>
+      <li>Internal resistance: 0.05 Ω</li>
+      <li>Nominal capacity: 187.5 Ah (675,000 Coulombs)</li>
+      <li>Temperature sensitivity of aging: 0.05 1/K</li>
+      <li>Degradation rate: 2×10⁻⁸ per Coulomb throughput</li>
+      <li>Battery mass: ~414 kg (energy density ~145 Wh/kg)</li>
+      <li>Specific heat capacity: 920 J/(kg·K)</li>
+      <li>Heat transfer coefficient: 7 W/(m²·K)</li>
+      <li>Surface area: 3.2 m²</li>
+    </ul>
+    
+    <h5>Solid State 60 kWh (projected)</h5>
+    <ul>
+      <li>Future solid-state battery technology with ~400 V nominal voltage.</li>
+      <li>Internal resistance: 0.015 Ω (lowest among types)</li>
+      <li>Nominal capacity: 150 Ah (540,000 Coulombs)</li>
+      <li>Temperature sensitivity of aging: 0.02 1/K</li>
+      <li>Degradation rate: 5×10⁻⁹ per Coulomb throughput (lowest)</li>
+      <li>Battery mass: ~240 kg (projected energy density ~250 Wh/kg)</li>
+      <li>Specific heat capacity: 850 J/(kg·K)</li>
+      <li>Heat transfer coefficient: 10 W/(m²·K)</li>
+      <li>Surface area: 2.5 m²</li>
+    </ul>
+    
+    <p>These constants provide realistic parameters for simulation of battery electrical, thermal, and aging behavior within the EVRanger models.</p>
+    </body></html>"));
+  
   end BatteryTypes;
 
   package BatteryOperationModeTypes
     type BatteryOperationMode = enumeration(Normal "Code 00: Normal operation", ReducedSOH "Code 01: Reduced initial SOH");
+    annotation(
+    Documentation(info = "<html><head></head><body>
+    <h4><b>Battery Operation Modes</b></h4>
+    <p>This enumeration defines the operating modes of the battery, which affect its initial state of health (SOH) and behavior in the simulation.</p>
+    <ul>
+      <li><b>Normal:</b> Standard operation mode with full initial SOH (100%).</li>
+      <li><b>ReducedSOH:</b> Represents a battery with a reduced initial state of health (e.g., aged or partially degraded battery), typically starting at 40% SOH.</li>
+    </ul>
+    <p>This allows simulation of different battery conditions for performance and degradation studies.</p>
+    </body></html>"));
+  
   end BatteryOperationModeTypes;
 
   package BatterySelectionTypes
@@ -160,7 +329,22 @@ type BatterySelection = enumeration(
   LFP_60kWh,        
   SolidState_60kWh 
 );
-
+annotation(
+    Documentation(info = "<html>
+      <head></head>
+      <body>
+        <h4><b>BatterySelectionTypes Package</b></h4>
+        <p>This package defines the <code>BatterySelection</code> enumeration, which lists the different types of battery chemistries available in the model. The options are:</p>
+        <ul>
+          <li><b>NMC_60kWh:</b> Lithium Nickel Manganese Cobalt Oxide battery with 60 kWh capacity.</li>
+          <li><b>LFP_60kWh:</b> Lithium Iron Phosphate battery with 60 kWh capacity.</li>
+          <li><b>SolidState_60kWh:</b> A projected solid-state battery technology with 60 kWh capacity.</li>
+        </ul>
+        <p>This enumeration allows the user to select which battery chemistry to simulate, affecting parameters such as internal resistance, capacity, weight, and degradation behavior.</p>
+      </body>
+    </html>")
+  );
+  
   end BatterySelectionTypes;
   annotation(
    Documentation(info = "<html><head></head><body></body></html>"));
