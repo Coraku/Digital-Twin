@@ -107,18 +107,22 @@ package Battery
 
   package BatteryTypes
     import EVRanger.Components.Battery.Records.BatteryParams;
+    
     //~400 V arch - NMC
     constant BatteryParams NMC_60kWh(R_int = 0.03, Q_nom = (60000/400)*3600,  // 150 Ah * 3600 = 540,000 C
     beta_degrad = 0.10, degradation_rate = 5e-8, m_batt = 343,  // 60000 Wh / 175 Wh/kg = ~343 kg
     c_p = 900, h = 8, A = 3.0);
+    
     //~320 V arch - LFP
     constant BatteryParams LFP_60kWh(R_int = 0.05, Q_nom = (60000/320)*3600,  // 187.5 Ah * 3600 = 675,000 C
     beta_degrad = 0.05, degradation_rate = 2e-8, m_batt = 414,  // 60000 Wh / 145 Wh/kg = ~414 kg
     c_p = 920, h = 7, A = 3.2);
+    
     //~400 V arch - SolidState (projected)
     constant BatteryParams SolidState_60kWh(R_int = 0.015, Q_nom = (60000/400)*3600,  // 150 Ah * 3600 = 540,000 C
     beta_degrad = 0.02, degradation_rate = 5e-9, m_batt = 240,  // 60000 Wh / 250 Wh/kg = 240 kg (projected)
     c_p = 850, h = 10, A = 2.5);
+    
   end BatteryTypes;
 
   package BatteryOperationModeTypes
@@ -128,10 +132,11 @@ package Battery
   package BatterySelectionTypes
 
 type BatterySelection = enumeration(
-  NMC_60kWh        "NMC 60 kWh",
-  LFP_60kWh        "LFP 60 kWh",
-  SolidState_60kWh "Solid-State 60 kWh"
+  NMC_60kWh,       
+  LFP_60kWh,        
+  SolidState_60kWh 
 );
+
   end BatterySelectionTypes;
   annotation(
     Documentation(info = "<html><head></head><body></body></html>"));
