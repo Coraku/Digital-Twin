@@ -1,20 +1,31 @@
 within EVRanger.Components;
 
-package Battery 
-extends EVRanger.Icons.BatterySymb; 
+package Battery
+  extends EVRanger.Icons.BatterySymb;
+
   model Battery
-    
     import EVRanger.Interfaces.ElectricalPort;
     import EVRanger.Functions.*;
     import EVRanger.Components.Battery.Records.BatteryParams;
     import EVRanger.Components.Battery.BatteryTypes.*;
     import EVRanger.Components.Battery.BatteryOperationModeTypes;
+    import EVRanger.Components.Battery.BatterySelectionTypes.BatterySelection;
     //import EVRanger.Components.Battery.BatteryTypes;
     //import Battery.BatteryOperationModeTypes;
     // Select battery type: 1=NMC, 2=LFP, 3=SolidState
-    parameter Integer batteryType = 2 "Select battery type";
+   // parameter Integer batteryType = 2 "Select battery type";
+ parameter BatterySelection batteryType = BatterySelection.LFP_60kWh "Select battery type";
+  
     // Choose battery parameters based on selection
-    parameter BatteryParams batt = if batteryType == 1 then BatteryTypes.NMC_60kWh else if batteryType == 2 then BatteryTypes.LFP_60kWh else BatteryTypes.SolidState_60kWh;
+   /* parameter BatteryParams batt = if batteryType == 1 then BatteryTypes.NMC_60kWh else if batteryType == 2 then BatteryTypes.LFP_60kWh else BatteryTypes.SolidState_60kWh;*/
+   parameter BatteryParams batt =
+    if batteryType == BatterySelection.NMC_60kWh then
+      BatteryTypes.NMC_60kWh
+    elseif batteryType == BatterySelection.LFP_60kWh then
+      BatteryTypes.LFP_60kWh
+    else
+      BatteryTypes.SolidState_60kWh;
+  
     //Battery operation mode
     parameter BatteryOperationModeTypes.BatteryOperationMode operationMode = BatteryOperationModeTypes.BatteryOperationMode.Normal "Select Battery operating mode";
     parameter Real SOH_init = if operationMode == BatteryOperationModeTypes.BatteryOperationMode.Normal then 1.0 else 0.4 "Initial state of health (1 = 100%)";
@@ -50,22 +61,21 @@ extends EVRanger.Icons.BatterySymb;
     output Real R_int_factor;
     EVRanger.Interfaces.ElectricalPort electricalPortOut annotation(
       Placement(visible = true, transformation(origin = {68, 26}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {18, -56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-
     output EVRanger.Interfaces.BatteryAvailableSignal batteryAvailableSignal annotation(
       Placement(visible = true, transformation(origin = {84, 26}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-18, -56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   equation
     I_batt = electricalPortOut.I;
     electricalPortOut.V = V_t;
     R_int_factor = R_int_temp_factor(T);
-    R_int_T = R_int * R_int_factor * (if SOC > SOC_min and SOC < SOC_max then 1 else 1e6);
+    R_int_T = R_int*R_int_factor*(if SOC > SOC_min and SOC < SOC_max then 1 else 1e6);
     Q_eff = Q_nom_temp(T, Q_nom);
     V_oc = OCV_from_SOC(SOC);
-    V_t = V_oc - R_int_T * I_batt;
-    der(SOC) = if SOC > SOC_min and SOC < SOC_max then -I_batt / (Q_eff * SOH) else 0;
-    der(SOH) = if SOC > SOC_min and SOC < SOC_max and abs(I_batt) > 0 then -degradation_rate * abs(I_batt) * exp(beta_degrad * (T - T_ref)) else 0;
-    Q_gen = I_batt ^ 2 * R_int_T;
-    Q_loss = h * A * (T - T_amb);
-    der(T) = if SOC > 0 then (Q_gen - Q_loss) / (m_batt * c_p) else 0;
+    V_t = V_oc - R_int_T*I_batt;
+    der(SOC) = if SOC > SOC_min and SOC < SOC_max then -I_batt/(Q_eff*SOH) else 0;
+    der(SOH) = if SOC > SOC_min and SOC < SOC_max and abs(I_batt) > 0 then -degradation_rate*abs(I_batt)*exp(beta_degrad*(T - T_ref)) else 0;
+    Q_gen = I_batt^2*R_int_T;
+    Q_loss = h*A*(T - T_amb);
+    der(T) = if SOC > 0 then (Q_gen - Q_loss)/(m_batt*c_p) else 0;
     SOC_out = SOC;
     T_out = T;
     SOH_out = SOH;
@@ -96,55 +106,33 @@ extends EVRanger.Icons.BatterySymb;
   //within EVRanger.Components.Battery2;
 
   package BatteryTypes
-  
-   
     import EVRanger.Components.Battery.Records.BatteryParams;
-  
     //~400 V arch - NMC
-    constant BatteryParams NMC_60kWh(
-      R_int = 0.03, 
-      Q_nom = (60000 / 400) * 3600,   // 150 Ah * 3600 = 540,000 C
-      beta_degrad = 0.10, 
-      degradation_rate = 5e-8, 
-      m_batt = 343,                   // 60000 Wh / 175 Wh/kg = ~343 kg
-      c_p = 900, 
-      h = 8, 
-      A = 3.0
-    );
-  
+    constant BatteryParams NMC_60kWh(R_int = 0.03, Q_nom = (60000/400)*3600,  // 150 Ah * 3600 = 540,000 C
+    beta_degrad = 0.10, degradation_rate = 5e-8, m_batt = 343,  // 60000 Wh / 175 Wh/kg = ~343 kg
+    c_p = 900, h = 8, A = 3.0);
     //~320 V arch - LFP
-    constant BatteryParams LFP_60kWh(
-      R_int = 0.05, 
-      Q_nom = (60000 / 320) * 3600,  // 187.5 Ah * 3600 = 675,000 C
-      beta_degrad = 0.05, 
-      degradation_rate = 2e-8, 
-      m_batt = 414,                   // 60000 Wh / 145 Wh/kg = ~414 kg
-      c_p = 920, 
-      h = 7, 
-      A = 3.2
-    );
-  
+    constant BatteryParams LFP_60kWh(R_int = 0.05, Q_nom = (60000/320)*3600,  // 187.5 Ah * 3600 = 675,000 C
+    beta_degrad = 0.05, degradation_rate = 2e-8, m_batt = 414,  // 60000 Wh / 145 Wh/kg = ~414 kg
+    c_p = 920, h = 7, A = 3.2);
     //~400 V arch - SolidState (projected)
-    constant BatteryParams SolidState_60kWh(
-      R_int = 0.015, 
-      Q_nom = (60000 / 400) * 3600,  // 150 Ah * 3600 = 540,000 C
-      beta_degrad = 0.02, 
-      degradation_rate = 5e-9, 
-      m_batt = 240,                   // 60000 Wh / 250 Wh/kg = 240 kg (projected)
-      c_p = 850, 
-      h = 10, 
-      A = 2.5
-    );
-  
+    constant BatteryParams SolidState_60kWh(R_int = 0.015, Q_nom = (60000/400)*3600,  // 150 Ah * 3600 = 540,000 C
+    beta_degrad = 0.02, degradation_rate = 5e-9, m_batt = 240,  // 60000 Wh / 250 Wh/kg = 240 kg (projected)
+    c_p = 850, h = 10, A = 2.5);
   end BatteryTypes;
 
   package BatteryOperationModeTypes
-  
-  type BatteryOperationMode = enumeration(
-      Normal        "Code 00: Normal operation",
-      ReducedSOH    "Code 01: Reduced initial SOH"
-    );
-  
-  end BatteryOperationModeTypes;annotation(
+    type BatteryOperationMode = enumeration(Normal "Code 00: Normal operation", ReducedSOH "Code 01: Reduced initial SOH");
+  end BatteryOperationModeTypes;
+
+  package BatterySelectionTypes
+
+type BatterySelection = enumeration(
+  NMC_60kWh        "NMC 60 kWh",
+  LFP_60kWh        "LFP 60 kWh",
+  SolidState_60kWh "Solid-State 60 kWh"
+);
+  end BatterySelectionTypes;
+  annotation(
     Documentation(info = "<html><head></head><body></body></html>"));
 end Battery;

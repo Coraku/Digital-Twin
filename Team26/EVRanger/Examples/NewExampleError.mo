@@ -11,7 +11,7 @@ model NewExampleError
     Placement(transformation(origin = {-62.5, -6.6}, extent = {{-27.5, 11}, {27.5, 33}})));
   EVRanger.Components.MotorController motorController annotation(
     Placement(visible = true, transformation(origin = {13, 43}, extent = {{-35, -35}, {35, 35}}, rotation = 0)));
-  EVRanger.Components.Battery.Battery battery(operationMode = EVRanger.Components.Battery.BatteryOperationModeTypes.BatteryOperationMode.Normal)  annotation(
+  EVRanger.Components.Battery.Battery battery(operationMode = EVRanger.Components.Battery.BatteryOperationModeTypes.BatteryOperationMode.Normal, batteryType = EVRanger.Components.Battery.BatterySelectionTypes.BatterySelection.LFP_60kWh)  annotation(
     Placement(visible = true, transformation(origin = {71, 75}, extent = {{-39, -39}, {39, 39}}, rotation = 0)));
   Components.Driver.MinimalDriver minimalDriver(operationMode = EVRanger.Components.Driver.DriverOperationModeTypes.DriverOperationMode.Normal)  annotation(
     Placement(transformation(origin = {-59, 61}, extent = {{-23, -23}, {23, 23}})));
