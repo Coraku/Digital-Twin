@@ -3,27 +3,14 @@ within EVRanger;
 package Functions
 extends EVRanger.Icons.Function;
 annotation(
-  Documentation(info = "<html>
-  <head></head>
+  Documentation(info = "<html><head></head>
   <body>
     <h4><b>EVRanger.Functions Overview</b></h4>
     <p>This package contains various utility functions for vehicle dynamics, battery management, and environmental modeling in the EVRanger system.</p>
     <table border=\"1\" cellspacing=\"0\" cellpadding=\"4\">
-      <tr><th>Function</th><th>Description</th><th>Main Inputs</th><th>Main Outputs</th></tr>
+      <tbody><tr><th>Function</th><th>Description</th><th>Main Inputs</th><th>Main Outputs</th></tr>
 
-      <tr>
-        <td><b>checkSOC</b></td>
-        <td>Calculates terminal voltage based on state of charge and internal resistance. Returns zero voltage if SOC ≤ 0.</td>
-        <td>SOC, battery current (I_batt), electromotive force (E_m), internal resistance (R_int)</td>
-        <td>Terminal voltage (V_t)</td>
-      </tr>
 
-      <tr>
-        <td><b>check_SOC</b></td>
-        <td>Limits battery current based on minimum and maximum SOC thresholds to prevent overcharging/discharging.</td>
-        <td>SOC, SOC_min, SOC_max, current at port (I_port)</td>
-        <td>Battery current (I_batt)</td>
-      </tr>
 
       <tr>
         <td><b>fAeroDrag</b></td>
@@ -116,9 +103,8 @@ annotation(
         <td>Friction value</td>
       </tr>
 
-    </table>
-  </body>
-  </html>")
-);
+    </tbody></table>
+  
+  </body></html>"));
 
 end Functions;

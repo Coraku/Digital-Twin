@@ -13,6 +13,7 @@ model Battery
   import EVRanger.Components.Battery.BatteryTypes.*;
   import EVRanger.Components.Battery.BatteryOperationModeTypes;
   import EVRanger.Components.Battery.BatterySelectionTypes.BatterySelection;
+  import EVRanger.Interfaces.AmbientTemperatureSignal;
  
 
   parameter BatterySelection batteryType = BatterySelection.LFP_60kWh "Select                    battery type";
@@ -24,14 +25,12 @@ model Battery
     BatteryTypes.LFP_60kWh
   else
     BatteryTypes.SolidState_60kWh;
-    
-  //Battery operation mode
+    //Battery operation mode
   parameter BatteryOperationModeTypes.BatteryOperationMode operationMode = BatteryOperationModeTypes.BatteryOperationMode.Normal "Select Battery operating mode";
   
   parameter Real SOH_init = if operationMode == BatteryOperationModeTypes.BatteryOperationMode.Normal then 1.0 else 0.4 "Initial state of health (1 = 100%)";
   
   Integer[3] modeColor = if operationMode == BatteryOperationModeTypes.BatteryOperationMode.Normal then {0, 160, 0} else {220, 140, 0};
-  
   // Assign parameters from selected battery
   parameter Real R_int = batt.R_int;
   parameter Real Q_nom = batt.Q_nom;
@@ -41,13 +40,11 @@ model Battery
   parameter Real c_p = batt.c_p;
   parameter Real h = batt.h;
   parameter Real A = batt.A;
-  
   // Common parameters
   parameter Real T_ref = 25 "Reference temperature (°C)";
-  parameter Real T_amb = 25 "Ambient temperature (°C)";
+ //  parameter Real T_amb = 25 "Ambient temperature (°C)";
   parameter Real SOC_min = 0.05 "Minimum SOC";
   parameter Real SOC_max = 1.0 "Maximum SOC";
-  
   // State variables
   Real SOC(start = 0.8, min = 0, max = 1) "State of Charge";
   Real SOH(start = SOH_init, min = 0, max = 1) "State of Health";
@@ -69,6 +66,8 @@ model Battery
     Placement(visible = true, transformation(origin = {68, 26}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {18, -56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   output EVRanger.Interfaces.BatteryAvailableSignal batteryAvailableSignal annotation(
     Placement(visible = true, transformation(origin = {84, 26}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-18, -56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+ input Interfaces.AmbientTemperatureSignal ambientTemperatureSignal annotation(
+      Placement(transformation(origin = {46, 24}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {47, 25}, extent = {{-7, -7}, {7, 7}})));
 
 equation
 
@@ -89,7 +88,9 @@ equation
   der(SOH) = if SOC > SOC_min and SOC < SOC_max and abs(I_batt) > 0 then -degradation_rate*abs(I_batt)*exp(beta_degrad*(T - T_ref)) else 0;
   
   Q_gen = I_batt^2*R_int_T;
-  Q_loss = h*A*(T - T_amb);
+  //Q_loss = h*A*(T - T_amb);
+  Q_loss = h*A*(T - ambientTemperatureSignal.T_amb);
+
   
   der(T) = if SOC > 0 then (Q_gen - Q_loss)/(m_batt*c_p) else 0;
   
@@ -98,7 +99,6 @@ equation
   SOH_out = SOH;
   
   batteryAvailableSignal.batteryAvailable = if SOC <= SOC_min then false else true;
-  
 // green
 // orange
   annotation(
@@ -242,17 +242,14 @@ end Battery;
 
   package BatteryTypes
     import EVRanger.Components.Battery.Records.BatteryParams;
-    
     //~400 V arch - NMC
     constant BatteryParams NMC_60kWh(R_int = 0.03, Q_nom = (60000/400)*3600,  // 150 Ah * 3600 = 540,000 C
     beta_degrad = 0.10, degradation_rate = 5e-8, m_batt = 343,  // 60000 Wh / 175 Wh/kg = ~343 kg
     c_p = 900, h = 8, A = 3.0);
-    
     //~320 V arch - LFP
     constant BatteryParams LFP_60kWh(R_int = 0.05, Q_nom = (60000/320)*3600,  // 187.5 Ah * 3600 = 675,000 C
     beta_degrad = 0.05, degradation_rate = 2e-8, m_batt = 414,  // 60000 Wh / 145 Wh/kg = ~414 kg
     c_p = 920, h = 7, A = 3.2);
-    
     //~400 V arch - SolidState (projected)
     constant BatteryParams SolidState_60kWh(R_int = 0.015, Q_nom = (60000/400)*3600,  // 150 Ah * 3600 = 540,000 C
     beta_degrad = 0.02, degradation_rate = 5e-9, m_batt = 240,  // 60000 Wh / 250 Wh/kg = 240 kg (projected)

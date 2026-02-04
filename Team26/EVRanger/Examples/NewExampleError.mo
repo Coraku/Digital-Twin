@@ -44,6 +44,8 @@ equation
     Line(points = {{-38, 62}, {-12, 62}, {-12, 46}}));
   connect(minimalDriver.distanceSignalIn, vehicleLongDyn.distanceSignal) annotation(
     Line(points = {{-80, 62}, {-96, 62}, {-96, -72}, {-54, -72}}));
+  connect(environment.ambientTemperatureSignal, battery.ambientTemperatureSignal) annotation(
+    Line(points = {{-46, 6}, {22, 6}, {22, 28}, {88, 28}, {88, 47}, {90, 47}, {90, 84}}, color = {255, 255, 0}));
   annotation(
     Diagram);
 end NewExampleError;

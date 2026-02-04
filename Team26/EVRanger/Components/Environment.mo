@@ -11,10 +11,21 @@ model Environment
     Placement(visible = true,transformation(origin = {-116, 2}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   output EVRanger.Interfaces.RollingResistanceSignal rollingResistanceSignal annotation(
     Placement(visible = true, transformation(origin = {100, -16}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, -16}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  output Interfaces.AmbientTemperatureSignal ambientTemperatureSignal annotation(
+    Placement(transformation(origin = {60, -36}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {60, -36}, extent = {{-10, -10}, {10, 10}})));
+
+parameter Real T_amb_mean = 25 "Mean ambient temperature (°C)";
+  parameter Real T_amb_amp  = 5  "Ambient temperature amplitude (°C)";
+  parameter Real dayPeriod  = 86400 "Day period (s)";
+  
 equation
 
 slopeSignal.slope = fSlopeGenerator(distanceSignalIn.x);
 rollingResistanceSignal.mu_rr = fFrictionGenerator(distanceSignalIn.x);
+
+  ambientTemperatureSignal.T_amb =
+    T_amb_mean + T_amb_amp * sin(2*Modelica.Constants.pi*time/dayPeriod);
+
 
 annotation(
     Icon(graphics = {Rectangle(fillColor = {0, 170, 0}, fillPattern = FillPattern.Solid, extent = {{-100, 40}, {100, -40}}), Rectangle(origin = {-60, 0}, fillColor = {255, 255, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-20, 10}, {20, -10}}), Rectangle(fillColor = {255, 255, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-20, 10}, {20, -10}}), Rectangle(origin = {60, 0}, fillColor = {255, 255, 255}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-20, 10}, {20, -10}})}, coordinateSystem(extent = {{-100, 40}, {100, -40}})),

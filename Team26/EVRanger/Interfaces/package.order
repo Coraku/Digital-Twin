@@ -8,3 +8,4 @@ RollingResistanceSignal
 SlopeSignal
 TorqueSignal
 VelocitySignal
+AmbientTemperatureSignal
