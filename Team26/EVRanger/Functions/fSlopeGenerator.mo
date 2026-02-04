@@ -13,11 +13,14 @@ algorithm
   elseif position < 20000 then
     slope := 0.01;
   else */
+  
   if position < 50000 then
     slope := 0.01;
   else
     slope := 0.00;
   end if;
+  
+  //slope := 0;
   //end if;
 end fSlopeGenerator;
 

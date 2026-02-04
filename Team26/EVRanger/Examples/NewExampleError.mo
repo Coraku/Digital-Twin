@@ -12,12 +12,12 @@ model NewExampleError
   EVRanger.Components.MotorController motorController annotation(
     Placement(visible = true, transformation(origin = {13, 43}, extent = {{-35, -35}, {35, 35}}, rotation = 0)));
   EVRanger.Components.Battery.Battery battery(operationMode = EVRanger.Components.Battery.BatteryOperationModeTypes.BatteryOperationMode.Normal, batteryType = EVRanger.Components.Battery.BatterySelectionTypes.BatterySelection.LFP_60kWh)  annotation(
-    Placement(visible = true, transformation(origin = {71, 75}, extent = {{-39, -39}, {39, 39}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {73, 73}, extent = {{-39, -39}, {39, 39}}, rotation = 0)));
   Components.Driver.MinimalDriver minimalDriver(operationMode = EVRanger.Components.Driver.DriverOperationModeTypes.DriverOperationMode.Normal)  annotation(
     Placement(transformation(origin = {-59, 61}, extent = {{-23, -23}, {23, 23}})));
 equation
   connect(battery.batteryAvailableSignal, motorController.batteryAvailableSignal) annotation(
-    Line(points = {{64, 54}, {38, 54}, {38, 70}, {9, 70}}));
+    Line(points = {{66, 51}, {38, 51}, {38, 70}, {-2, 70}}));
   connect(motorController.torqueSignal, dCMotor.torqueSignal) annotation(
     Line(points = {{40, 44}, {40, 15}, {36, 15}, {36, -14}}));
   connect(dCMotor.mechanicalPortOut, vehicleLongDyn.vehicleMechanicalPortIn) annotation(
@@ -27,9 +27,9 @@ equation
   connect(motorController.velocitySignalVehicle, vehicleLongDyn.velocitySignal) annotation(
     Line(points = {{2, 25}, {2, -9}, {3, -9}, {3, -44}}));
   connect(battery.electricalPortOut, dCMotor.electricalPortIn) annotation(
-    Line(points = {{76, 54}, {78, 54}, {78, 14}}));
+    Line(points = {{80, 51}, {80, 34}, {78, 34}, {78, 14}}));
   connect(battery.batteryAvailableSignal, dCMotor.batteryAvailableSignal) annotation(
-    Line(points = {{64, 54}, {58, 54}, {58, 12}}));
+    Line(points = {{66, 51}, {58, 51}, {58, 12}}));
   connect(battery.batteryAvailableSignal, dCMotor.batteryAvailableSignal) annotation(
     Line(points = {{64, 54}, {58, 54}, {58, 12}}));
   connect(battery.electricalPortOut, dCMotor.electricalPortIn) annotation(
@@ -45,7 +45,7 @@ equation
   connect(minimalDriver.distanceSignalIn, vehicleLongDyn.distanceSignal) annotation(
     Line(points = {{-80, 62}, {-96, 62}, {-96, -72}, {-54, -72}}));
   connect(environment.ambientTemperatureSignal, battery.ambientTemperatureSignal) annotation(
-    Line(points = {{-46, 6}, {22, 6}, {22, 28}, {88, 28}, {88, 47}, {90, 47}, {90, 84}}, color = {255, 255, 0}));
+    Line(points = {{-46, 6}, {22, 6}, {22, 28}, {88, 28}, {88, 47}, {91, 47}, {91, 83}}, color = {255, 255, 0}));
   annotation(
     Diagram);
 end NewExampleError;
