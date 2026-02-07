@@ -2,7 +2,7 @@ within EVRanger.Functions;
 
 function fSlopeGenerator
   input Real position "Longitudinal position [m]";
-  output Real slope "Road slope (rise/run)";
+  output Real slope "Road slope (rise/run) [rad]";
 algorithm
   /*if position < 5000 then
     slope := 0.0;              // flat
