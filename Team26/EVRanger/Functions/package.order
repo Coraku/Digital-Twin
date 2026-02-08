@@ -2,7 +2,6 @@ fAeroDrag
 fHillClimbing
 fLinearAcceleration
 fRollResistance
-fRotationalAcceleration
 fSlopeGenerator
 fSpeedLimit
 minCurrValue

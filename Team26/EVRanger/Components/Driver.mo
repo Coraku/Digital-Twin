@@ -10,8 +10,7 @@ extends EVRanger.Icons.Driver;
       Placement(visible = true, transformation(origin = {2, -58}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-90, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     output Interfaces.VelocitySignal velocitySignal annotation(
       Placement(visible = true, transformation(origin = {118, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {90, 2}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  
-    // The DriverOperationModeTypes differentiate between a Normal driver, following the maximal legal velocity, and a speeding one
+  // The DriverOperationModeTypes differentiate between a Normal driver, following the maximal legal velocity, and a speeding one
     parameter DriverOperationModeTypes.DriverOperationMode operationMode = DriverOperationModeTypes.DriverOperationMode.Normal;
     // the speed_factor represents how much the Driver is speeding. A value of 1 represents a Driver driving at the legal speed limit
     parameter Real speed_factor = if operationMode == DriverOperationModeTypes.DriverOperationMode.Normal then 1 else 1.2;

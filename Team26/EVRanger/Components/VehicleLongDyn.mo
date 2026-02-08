@@ -34,7 +34,6 @@ model VehicleLongDyn "Models the total tractive forces of the vehicle"
   // Forces
   Real F_tr "Tractive force";
   Real F_loss "Sum off all forces opposing F_tr";
-  //private
   Real F_roll;
   Real F_aero;
   Real F_hill;
