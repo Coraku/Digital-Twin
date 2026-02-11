@@ -3,12 +3,11 @@ within EVRanger.Components;
 class Overview
   extends EVRanger.Icons.InfoSymbol;
 annotation(
-    Documentation(info = "<html>
-<p>
+    Documentation(info = "<html><head></head><body><p>
 The following components are included within the library:</p>
 
 <table border=\"1\" cellspacing=\"0\" cellpadding=\"2\">
-<tr><th>Library Components</th> <th>Description</th></tr>
+<tbody><tr><th>Library Components</th> <th>Description</th></tr>
 
 <tr><td>
  <a href=\"modelica://EVRanger.Components.Battery\">Battery</a>
@@ -18,13 +17,6 @@ The following components are included within the library:</p>
  </td>
 </tr>
 
-<tr><td>
- <a href=\"modelica://EVRanger.Components.Consumer\">Consumer</a>
- </td>
- <td>
- It defines an electrical load with a specified current draw.
- </td>
-</tr>
 
 <tr><td>
  <a href=\"modelica://EVRanger.Components.DCMotor\">DCMotor</a>
@@ -66,7 +58,7 @@ The following components are included within the library:</p>
  </td>
 </tr>
 
-</table>
+</tbody></table>
 
-</html>"));
+</body></html>"));
 end Overview;

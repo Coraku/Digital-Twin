@@ -39,6 +39,7 @@ equation
     Line(points = {{-92, 76}, {-98, 76}, {-98, -78}, {-50, -78}}));
   connect(environment.ambientTemperatureSignal, battery.ambientTemperatureSignal) annotation(
     Line(points = {{-44, 24}, {94, 24}, {94, 86}}, color = {255, 255, 0}));
-  annotation(
-    Diagram);
-end Examples_Solid_State_Battery;
+   annotation(
+    Diagram,
+    Documentation(info = "<html><head></head><body><p style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\">Example simulation with the Solid State battery parameterisation.</p><p style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\">It showcases the easy switch between battery parametrisations, to estimate the range of the specified model.</p><p style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"><b><u>Parameterisation</u>&nbsp;</b></p><p style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"><b>Battery:</b></p><p style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"></p><ul style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"><li>Solid State Battery Parameter</li><li>Initial SOH = 1 (no production faults, battery is 100% healthy)</li></ul><div style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"><b>Environment:</b></div><div style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"><ul><li>Ambient Temperature = 25°C</li><li>Slope = 0</li></ul><div><b>Driver:</b></div></div><div style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"><ul><li>Normal (adheres to speed limit)</li></ul></div><p style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"></p><p style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"><b>DC Motor &amp; Vehicle:&nbsp;</b></p><p style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"></p><ul style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"><li>Default Parameter</li></ul></body></html>"));
+end  Examples_Solid_State_Battery;
