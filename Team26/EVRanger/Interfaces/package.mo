@@ -3,13 +3,12 @@ within EVRanger;
 package Interfaces
 extends EVRanger.Icons.InterfacesSymb;
 annotation(
-  Documentation(info = "<html>
-  <head></head>
+  Documentation(info = "<html><head></head>
   <body>
     <h4><b>EVRanger.Interfaces Connectors</b></h4>
     <p>This package contains connector definitions used to represent various physical and signal interfaces in the EVRanger models.</p>
     <table border=\"1\" cellspacing=\"0\" cellpadding=\"4\">
-      <tr><th>Connector</th><th>Description</th></tr>
+      <tbody><tr><th>Connector</th><th>Description</th></tr>
 
       <tr>
         <td><b>AccelerationSignal</b></td>
@@ -48,21 +47,25 @@ annotation(
 
       <tr>
         <td><b>SlopeSignal</b></td>
-        <td>Represents the slope angle in degrees (<code>slope</code>), where 90° is straight up and -90° is straight down.</td>
+        <td>Represents the slope (rad).</td>
       </tr>
 
       <tr>
         <td><b>TorqueSignal</b></td>
-        <td>Represents torque demand as a real value <code>tau</code>, typically as a percentage of maximum torque.</td>
+        <td>Represents torque demand as a real value <code>tau.</code></td>
+      </tr>
+      
+       <tr>
+        <td><b>AmbientTemperatureSignal</b></td>
+        <td>Represents the environment temperature in °C.</td>
       </tr>
 
       <tr>
         <td><b>VelocitySignal</b></td>
         <td>Represents velocity as a real value <code>vel</code> (m/s).</td>
       </tr>
-    </table>
-  </body>
-  </html>")
-);
+    </tbody></table>
+  
+  </body></html>"));
 
 end Interfaces;
