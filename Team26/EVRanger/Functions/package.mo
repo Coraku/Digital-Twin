@@ -40,12 +40,6 @@ annotation(
         <td>Rolling resistance force (F_rr)</td>
       </tr>
 
-      <tr>
-        <td><b>fRotationalAcceleration</b></td>
-        <td>Computes force due to rotational acceleration of motor and drivetrain components.</td>
-        <td>Rotor inertia (I_mt), gear ratio (G_gr), gear efficiency (eta_gr), tyre radius (r_tr), vehicle acceleration (a)</td>
-        <td>Rotational acceleration force (F_wa)</td>
-      </tr>
 
       <tr>
         <td><b>fSlopeGenerator</b></td>
