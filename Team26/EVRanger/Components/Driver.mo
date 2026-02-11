@@ -24,7 +24,9 @@ extends EVRanger.Icons.Driver;
   end MinimalDriver;
   
   package DriverOperationModeTypes
-    type DriverOperationMode = enumeration(Normal "Code 00: Normal operation", Speeding "Code 10: Speeding Driver");
+  type DriverOperationMode = enumeration(Normal "Code 00: Normal operation", Speeding "Code 10: Speeding Driver");
+    annotation(
+      Documentation(info = "<html><head></head><body><h4><b>Driver Operation Modes</b></h4><p>This enumeration defines the operating modes of the driver, which determines if the driver is speeding or not</p><ul><li><b>Normal:</b>&nbsp;The driver drives at 100% speed limit.</li><li><b>Speeding:</b>&nbsp;The driver drives 20% too fast (120% speed limit)</li></ul><p>This allows simulation of different driving patterns for studies on the maximum range.</p></body></html>"));
   end DriverOperationModeTypes;annotation(
     Documentation(info = "<html><head></head><body><h4 style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"><b>Description</b></h4><div style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"><!--StartFragment-->The driver represents the link between the speed limit and the actual speed signal provided to the motor controller.<!--EndFragment-->&nbsp;&nbsp;</div><div style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"><br></div><div style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"><b>Subtypes</b></div><div style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\"><br></div><div style=\"font-family: 'MS Shell Dlg 2'; font-size: 12px;\">1. The \"Normal\" subtype represents a lawful driver, who drives only as fast as the speed limit allows.</div><!--StartFragment--><!--EndFragment-->
 
