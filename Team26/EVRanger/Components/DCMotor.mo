@@ -4,27 +4,27 @@ model DCMotor "Basic Lynch Type DC Motor"
   import Modelica.Constants.pi;
   import EVRanger.Functions.*;
   //typical data sheet information
-  parameter Real motor_speed = 70 "Motor speed [rpm/V]";
-  parameter Real R_a = 0.016 "Armature resistance [ohm]";
-  parameter Real I_lim = 250 "Current limit [A]";
-  parameter Real tau_max = -34 "Maximum torque [Nm]"; 
+  parameter Units.MotorSpeedConstant motor_speed = 70 "Motor speed";
+  parameter Units.Resistance R_a = 0.016 "Armature resistance";
+  parameter Units.Current I_lim = 250 "Current limit";
+  parameter Units.Torque tau_max = -34 "Maximum torque"; 
 //Flow&Potential
   EVRanger.Interfaces.ElectricalPort electricalPortIn annotation(
     Placement(visible = true, transformation(origin = {-2, 76}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {30, 76}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   EVRanger.Interfaces.MechanicalPort mechanicalPortOut annotation(
     Placement(visible = true, transformation(origin = {-2, -76}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {0, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  // Signals
+// Signals
   input EVRanger.Interfaces.TorqueSignal torqueSignal annotation(
     Placement(visible = true, transformation(origin = {-24, 74}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-80, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   input EVRanger.Interfaces.BatteryAvailableSignal batteryAvailableSignal annotation(
     Placement(visible = true, transformation(origin = {-88, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-30, 74}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  //protected
-  Real KmPhi;           // K_m*Phi -> motor const*total flux passing through coil
-  Real V_b "Voltage opposing supply voltage";
-  Real I_amature "Amature current";
-  Real I_demand "Current necessary to meet torque demand from controller";
-  Real I_actual "Possible current, considering I_max, I_demand & I_amature";
-  Real tau_des "Desired torque value, considering the max torque of the motor & controller demand";
+//Variables
+  Units.MotorConstant KmPhi;           // K_m*Phi -> motor const*total flux passing through coil
+  Units.Voltage V_b "Voltage opposing supply voltage";
+  Units.Current I_amature "Amature current";
+  Units.Current I_demand "Current necessary to meet torque demand from controller";
+  Units.Current I_actual "Possible current, considering I_max, I_demand & I_amature";
+  Units.Torque tau_des "Desired torque value, considering the max torque of the motor & controller demand";
 
 equation
 //motor constant

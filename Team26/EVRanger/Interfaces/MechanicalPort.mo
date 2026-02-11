@@ -1,9 +1,9 @@
 within EVRanger.Interfaces;
 
 connector MechanicalPort
-  flow Real tau;
+  flow Units.Torque tau;
   // Torque
-  Real omega;
+  Units.AngularVelocity omega;
   // Angle
   annotation(
     Diagram(graphics),

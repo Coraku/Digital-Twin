@@ -2,6 +2,11 @@ within EVRanger;
 
 package Units
   extends EVRanger.Icons.UnitsSymb;
+  
+  type Time = Real(
+    final quantity = "Time",
+    final unit = "s"
+    );
 
   // Electrical
 
@@ -34,7 +39,7 @@ package Units
 
   type Temperature_degC = Real(
     final quantity = "ThermodynamicTemperature",
-    final unit = "degC"
+    final unit = "°C"
   );
 
   type HeatFlowRate = Real(
@@ -46,7 +51,7 @@ package Units
     final quantity = "SpecificHeatCapacity",
     final unit = "J/(kg.K)"
   );
-
+  
   type HeatTransferCoefficient = Real(
     final quantity = "HeatTransferCoefficient",
     final unit = "W/(m2.K)"
@@ -109,22 +114,6 @@ package Units
 
   // Battery specific
 
-  type StateOfCharge = Real(
-    final quantity = "StateOfCharge",
-    final unit = "1",
-    displayUnit = "%",
-    min = 0,
-    max = 1
-  );
-  
-  type StateOfHealth = Real(
-    final quantity = "StateOfHealth",
-    final unit = "1",
-    displayUnit = "%",
-    min = 0,
-    max = 1
-  );
-
   type ResistanceFactor = Real(
     final quantity = "ResistanceFactor",
     final unit = "1"
@@ -134,6 +123,13 @@ package Units
     final quantity = "DegradationRate",
     final unit = "1/A.s"
   );
+
+  
+  type TemperatureCoefficient = Real(
+    final quantity = "TemperatureCoefficient",
+    final unit = "1/K"
+  );
+  
   
   // Motor Specific
   

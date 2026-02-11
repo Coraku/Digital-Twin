@@ -1,3 +1,4 @@
+Time
 Voltage
 Current
 Resistance
@@ -17,9 +18,8 @@ Torque
 AngularVelocity
 Density
 RoadSlope
-StateOfCharge
-StateOfHealth
 ResistanceFactor
 DegradationRate
+TemperatureCoefficient
 MotorConstant
 MotorSpeedConstant

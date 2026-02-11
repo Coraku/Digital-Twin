@@ -14,9 +14,9 @@ model Environment
   output Interfaces.AmbientTemperatureSignal ambientTemperatureSignal annotation(
     Placement(transformation(origin = {60, -36}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {60, -36}, extent = {{-10, -10}, {10, 10}})));
 
-parameter Real T_amb_mean = 25 "Mean ambient temperature (°C)";
-  parameter Real T_amb_amp  = 5  "Ambient temperature amplitude (°C)";
-  parameter Real dayPeriod  = 86400 "Day period (s)";
+parameter Units.Temperature_degC T_amb_mean = 25 "Mean ambient temperature";
+  parameter Units.Temperature_degC T_amb_amp  = 5  "Ambient temperature amplitude";
+  parameter Units.Time dayPeriod  = 86400 "Day period";
   
 equation
 

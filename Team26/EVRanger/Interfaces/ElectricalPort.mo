@@ -1,9 +1,9 @@
 within EVRanger.Interfaces;
 
 connector ElectricalPort
-  flow Real I;
+  flow Units.Current I;
   // Current
-  Real V;
+  Units.Voltage V;
   // Voltage
   annotation(
     Diagram(graphics),

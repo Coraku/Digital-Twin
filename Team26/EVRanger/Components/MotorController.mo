@@ -3,8 +3,8 @@ within EVRanger.Components;
 model MotorController
   // The Motor Controller is also the "Driver"
   import EVRanger.Functions.*;
-  Real vEnv "Velocity given by the Environment (max legal Velocity)";
-  Real vVeh "Measured velocity of the Car" ;
+  Units.Velocity vEnv "Velocity given by the Environment (max legal Velocity)";
+  Units.Velocity vVeh "Measured velocity of the Car" ;
   Real tau "torque of the Motor [%]" ;
   parameter Real Kp = 100 "Proportional Gain";
   // controller outputs desired torque signal

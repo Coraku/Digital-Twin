@@ -7,13 +7,13 @@ model VehicleLongDyn "Models the total tractive forces of the vehicle"
   // gr->gear, mot->motor, veh->vehicle, tr -> tyre
   // Example parameter of small EV
   
-  parameter Real m_vehicle = 1540 "Vehicle mass excluding battery [kg]";
-  parameter Real m_battery = 0 "Battery mass [kg] (battery.m_batt)";
-  parameter Real m_total = m_vehicle + m_battery "Total vehicle mass [kg]";
-  parameter Real A_veh = 1.8 "Frontal area of vehicle [m^2]";
+  parameter Units.Mass m_vehicle = 1540 "Vehicle mass excluding battery";
+  parameter Units.Mass m_battery = 0 "Battery mass [kg] (battery.m_batt)";
+  parameter Units.Mass m_total = m_vehicle + m_battery "Total vehicle mass";
+  parameter Units.Area A_veh = 1.8 "Frontal area of vehicle";
   parameter Real C_d = 0.19 "Drag coefficient";
   parameter Real G_gr = 11 "Gear ratio";
-  parameter Real r_tr = 0.30 "Tyre radius [m]";
+  parameter Units.Length r_tr = 0.30 "Tyre radius";
 
 // Flow&Potential
   EVRanger.Interfaces.MechanicalPort vehicleMechanicalPortIn annotation(
@@ -32,11 +32,11 @@ model VehicleLongDyn "Models the total tractive forces of the vehicle"
     Placement(visible = true, transformation(origin = {-54, 34}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-18, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 
   // Forces
-  Real F_tr "Tractive force";
-  Real F_loss "Sum off all forces opposing F_tr";
-  Real F_roll;
-  Real F_aero;
-  Real F_hill;
+  Units.Force F_tr "Tractive force";
+  Units.Force F_loss "Sum off all forces opposing F_tr";
+  Units.Force F_roll "Roll resistance force";
+  Units.Force F_aero "Aerodynamic force";
+  Units.Force F_hill "Hill climbing force";
  
 equation
   velocitySignal.vel = der(distanceSignal.x);
